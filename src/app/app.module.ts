@@ -5,12 +5,16 @@ import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
 import {ListPage} from '../pages/list/list';
+import {LoginPage} from '../pages/login/login';
 
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {AuthProvider} from '../providers/auth/auth';
-
+import {HttpModule} from '@angular/http';
+import {IonicStorageModule} from '@ionic/storage';
 import {AngularFireModule} from 'angularfire2';
+import {AngularFireDatabaseModule} from 'angularfire2/database';
+import {CommonProvider} from '../providers/common/common';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBBzf4gxU2tEkE7S7myNCrxXxtOgQX2XWs",
@@ -25,24 +29,30 @@ export const firebaseConfig = {
     declarations: [
         MyApp,
         HomePage,
-        ListPage
+        ListPage,
+        LoginPage
     ],
     imports: [
         BrowserModule,
         IonicModule.forRoot(MyApp),
-        AngularFireModule.initializeApp(firebaseConfig)
+        AngularFireModule.initializeApp(firebaseConfig),
+        AngularFireDatabaseModule,
+        HttpModule,
+        IonicStorageModule.forRoot(),
     ],
     bootstrap: [IonicApp],
     entryComponents: [
         MyApp,
         HomePage,
-        ListPage
+        ListPage,
+        LoginPage
     ],
     providers: [
         StatusBar,
         SplashScreen,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
-        AuthProvider
+        AuthProvider,
+        CommonProvider
     ]
 })
 export class AppModule {
