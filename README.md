@@ -1,29 +1,26 @@
-# README #
+This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## How to use this template
 
-### What is this repository for? ###
+*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
 
-### How do I get set up? ###
+### With the Ionic CLI:
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
 
-### Contribution guidelines ###
+```bash
+$ sudo npm install -g ionic cordova
+$ ionic start mySideMenu sidemenu
+```
 
-* Writing tests
-* Code review
-* Other guidelines
+Then, to run it, cd into `mySideMenu` and run:
 
-### Who do I talk to? ###
+```bash
+$ ionic cordova platform add ios
+$ ionic cordova run ios
+```
 
-* Repo owner or admin
-* Other community or team contact
+Substitute ios for android if not on a Mac.
+
