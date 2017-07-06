@@ -73,6 +73,14 @@ export class MyApp {
                     {title: 'Building List', component: '', pageName: 'BuildingListPage', iconName: 'ios-reorder'},
                     {title: 'Sign Out', component: '', pageName: '', iconName: 'ios-log-out-outline'}
                 ];
+            }else if (user['level'] == 4) {
+                if (user['can_maintenance']) {
+                    this.pages = [
+                        {title: 'Home', component: HomePage, pageName: 'HomePage', iconName: 'ios-home'},
+                        {title: 'Maintenance', component: '', pageName: 'MaintenanceViewPage', iconName: 'ios-thunderstorm'},
+                        {title: 'Sign Out', component: '', pageName: '', iconName: 'ios-log-out-outline'}
+                    ];
+                }
             }
         })
     }

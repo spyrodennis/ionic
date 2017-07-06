@@ -36,8 +36,6 @@ export class OfficeProfilePage {
     }
 
     ionViewDidEnter() {
-        this.init();
-
         this.loading = this.loadingCtrl.create();
         this.loading.present();
 
@@ -81,33 +79,6 @@ export class OfficeProfilePage {
         console.log('ionViewDidLoad OfficeProfilePage');
     }
 
-    private makePassword() {
-        let text = "";
-        let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-        for (let i = 0; i < 5; i++)
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-        return text;
-    }
-
-    private init() {
-        this.employee = {
-            first_name: '',
-            last_name: '',
-            password: this.makePassword(),
-            phone_number: '',
-            email: '',
-            level: 4,  // Office Employee + Assigned Access
-            blood_type: '',
-            officeKey: this.officeId,
-            can_create_employee: false,
-            can_pre_authorize: false,
-            can_maintenance: false,
-            can_mail_view: false,
-        };
-    }
-
     private loadEmployees() {
         this.employees = [];
 
@@ -146,20 +117,15 @@ export class OfficeProfilePage {
             is_rented: this.office.is_rented
         });
 
-        if (this.employee.first_name != '' && this.employee.last_name != '') {
-            let employees = this.db.list('/users', {preserveSnapshot: true});
-            console.log(this.employee);
-            employees.push(this.employee).then(_ => {
-                this.loadEmployees();
-                this.init();
-            })
-        }
-
         this.common.showAlert('Office updated successfully!');
     }
 
     public editEmployee(employee, slidingItem: ItemSliding) {
         slidingItem.close();
         this.navCtrl.push('EmployeeProfilePage', {employeeId: employee.$id})
+    }
+
+    public createEmployee() {
+        this.navCtrl.push('CreateEmployeePage', {officeId: this.officeId});
     }
 }
