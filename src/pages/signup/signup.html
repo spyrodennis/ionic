@@ -30,6 +30,13 @@
             <ion-input type="password" placeholder="Password" [(ngModel)]="user.password"></ion-input>
         </ion-item>
 
+        <ion-item>
+            <ion-select [(ngModel)]="user.level" interface="popover" placeholder="Access Level">
+                <ion-option value="3">Office Renter (Owner)</ion-option>
+                <ion-option value="5">Vendor / Technician</ion-option>
+            </ion-select>
+        </ion-item>
+
     </ion-card>
 
     <button ion-button clear block color="dark" (click)="checkUser()">Sign Up</button>

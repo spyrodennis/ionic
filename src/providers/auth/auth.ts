@@ -46,4 +46,12 @@ export class AuthProvider {
             });
         });
     }
+
+    public logout() {
+        return new Promise((resolve, reject) => {
+            this.storage.remove('user_key').then(() => {
+                resolve(true);
+            })
+        });
+    }
 }

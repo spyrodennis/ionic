@@ -20,7 +20,8 @@ export class SignupPage {
     user = {
         name: '',
         email: '',
-        password: ''
+        password: '',
+        level: 3
     };
     loading: Loading;
     users: FirebaseListObservable<any>;
