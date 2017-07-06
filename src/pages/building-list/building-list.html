@@ -17,7 +17,6 @@
 
 
 <ion-content padding>
-    <p>There Are 3 Buildings A, B and C</p>
     <ion-card *ngFor="let item of buildings; let i = index;">
         <ion-item (click)="viewBuilding(item)">
             <ion-avatar item-start>
@@ -26,13 +25,6 @@
             <h2>{{item.name}}</h2>
             <p>{{item.description}}</p>
         </ion-item>
-        <ion-item>
-            <ion-label>Select Floor</ion-label>
-            <ion-select interface="popover">
-                <ion-option value="{{fitem.id}}" *ngFor="let fitem of item.floors">{{fitem.name}}</ion-option>
-            </ion-select>
-        </ion-item>
     </ion-card>
-    <p>Access Levels: 4+</p>
     <button ion-button block (click)="createOffice()">Create Office</button>
 </ion-content>
