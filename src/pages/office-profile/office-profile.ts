@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
 import {BuildingProvider} from '../../providers/building/building';
+import {CommonProvider} from '../../providers/common/common';
 
 /**
  * Generated class for the OfficeProfilePage page.
@@ -21,14 +22,16 @@ export class OfficeProfilePage {
     officeId: any;
     office: any;
     employee: any;
+    employees: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider) {
         this.officeId = navParams.get('officeId');
         this.office = {
             owner: {},
             renter: {}
         };
         this.employee = {};
+        this.employees = [];
     }
 
     ionViewDidEnter() {
@@ -69,6 +72,8 @@ export class OfficeProfilePage {
                 }
             });
         });
+
+        this.loadEmployees();
     }
 
     ionViewDidLoad() {
@@ -83,7 +88,54 @@ export class OfficeProfilePage {
             phone_number: '',
             email: '',
             id: '',
-            blood_type: ''
+            blood_type: '',
+            officeKey: this.officeId
         };
+    }
+
+    private loadEmployees() {
+        this.employees = [];
+
+        let employees = this.db.list('/employees',  {
+            preserveSnapshot: true,
+            query: {
+                orderByChild: 'officeKey',
+                equalTo: this.officeId
+            }
+        });
+
+        employees.subscribe(snapshots => {
+
+            snapshots.forEach(snapshot => {
+                console.log(snapshot.key);
+                console.log(snapshot.val());
+
+                let employee = snapshot.val();
+                employee.$id = snapshot.key;
+                this.employees.push(employee);
+            });
+        });
+    }
+
+    public updateOffice() {
+        let office = this.db.object('/offices/'+this.officeId);
+
+        office.update({
+            is_rented: this.office.is_rented,
+            can_create_employee: this.office.can_create_employee,
+            can_pre_authorize: this.office.can_pre_authorize,
+            can_maintenance: this.office.can_maintenance,
+            can_mail_view: this.office.can_mail_view
+        });
+
+        if (this.employee.first_name != '' && this.employee.last_name != '') {
+            let employees = this.db.list('/employees', {preserveSnapshot: true});
+            employees.push(this.employee).then(_ => {
+                this.loadEmployees();
+                this.init();
+            })
+        }
+
+        this.common.showAlert('Office updated successfully!');
     }
 }

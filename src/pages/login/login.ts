@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
-import {LoadingController, Loading} from 'ionic-angular';
+import {LoadingController, Loading, Events} from 'ionic-angular';
 import {CommonProvider} from '../../providers/common/common';
 import {AuthProvider} from '../../providers/auth/auth';
 import {HomePage} from '../home/home';
@@ -26,7 +26,7 @@ export class LoginPage {
     loading: Loading;
     users: FirebaseListObservable<any>;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private common: CommonProvider, private auth: AuthProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private common: CommonProvider, private auth: AuthProvider, public events: Events) {
         this.users = db.list('/users');
     }
 
@@ -62,9 +62,14 @@ export class LoginPage {
                     console.log(snapshot.val());
                     let user = snapshot.val();
 
+                    this.auth.setUser(user).then((res) => {
+                        this.events.publish('user:signin');
+                    });
+
                     if (user.password != this.user.password) {
                         this.common.showAlert('Your credential is incorrect!');
                     }else {
+
                         this.auth.setToken(snapshot.key).then((result) => {
                             this.navCtrl.setRoot(HomePage);
                         });

@@ -23,7 +23,6 @@ export class AuthProvider {
         });
     }
 
-
     public isAuthenticated() {
         return new Promise((resolve, reject) => {
             this.storage.ready().then(() => {
@@ -52,6 +51,27 @@ export class AuthProvider {
             this.storage.remove('user_key').then(() => {
                 resolve(true);
             })
+        });
+    }
+
+    public getUser() {
+        return new Promise((resolve, reject) => {
+            this.storage.ready().then(() => {
+                this.storage.get('user').then(user => {
+                    if (user)
+                        resolve(user);
+                    else
+                        reject(false);
+                }).catch(console.log);
+            });
+        });
+    }
+
+    public setUser(user) {
+        return new Promise((resolve, reject) => {
+            this.storage.set('user', user).then(() => {
+                resolve(true);
+            });
         });
     }
 }

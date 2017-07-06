@@ -44,6 +44,12 @@ export class CreateOfficePage {
             area: '',
             garages: '',
             coPay: '',
+            is_rented: false,
+            can_create_employee: false,
+            can_pre_authorize: false,
+            can_maintenance: false,
+            can_mail_view: false,
+            employees: {},
             owner: {
                 first_name: '',
                 last_name: '',

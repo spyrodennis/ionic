@@ -47,7 +47,7 @@
 
     <ion-list>
         <ion-item>
-            <ion-toggle checked="false"></ion-toggle>
+            <ion-toggle [(ngModel)]="office.is_rented"></ion-toggle>
             <ion-label>
                 RENTED (Yes / No)
             </ion-label>
@@ -77,6 +77,19 @@
                 <img src="assets/images/user_profile.png">
             </ion-avatar>
             <h2>{{office.renter.first_name + ' ' + office.renter.last_name}}</h2>
+        </ion-item>
+    </ion-list>
+
+    <ion-list>
+        <ion-list-header>
+            EMPLOYEES LIST
+        </ion-list-header>
+
+        <ion-item *ngFor="let item of employees">
+            <ion-avatar item-start>
+                <img src="assets/images/user_profile.png">
+            </ion-avatar>
+            <h2>{{item.first_name + ' ' + item.last_name}}</h2>
         </ion-item>
     </ion-list>
 
@@ -117,21 +130,21 @@
         </ion-list-header>
         <ion-item>
             <ion-label>CREATE EMPLOYEES</ion-label>
-            <ion-checkbox checked="true"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="office.can_create_employee"></ion-checkbox>
         </ion-item>
         <ion-item>
             <ion-label>PRE-AUTHORIZE VISITORS</ion-label>
-            <ion-checkbox checked="true"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="office.can_pre_authorize"></ion-checkbox>
         </ion-item>
         <ion-item>
             <ion-label>MAINTENANCE VIEW</ion-label>
-            <ion-checkbox checked="true"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="office.can_maintenance"></ion-checkbox>
         </ion-item>
         <ion-item>
             <ion-label>MAIL VIEW</ion-label>
-            <ion-checkbox checked="true"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="office.can_mail_view"></ion-checkbox>
         </ion-item>
     </ion-list>
 
-    <button ion-button block>SUBMIT</button>
+    <button ion-button block (click)="updateOffice()">SUBMIT</button>
 </ion-content>

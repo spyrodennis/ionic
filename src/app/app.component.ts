@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Nav, Platform} from 'ionic-angular';
+import {Nav, Platform, Events} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 
@@ -17,23 +17,27 @@ export class MyApp {
 
     pages: Array<{ title: string, component: any, pageName: string, iconName: string }>;
 
-    constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private auth: AuthProvider) {
+    constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private auth: AuthProvider, private events: Events) {
         this.initializeApp();
-
-        //check auth
-        this.auth.isAuthenticated().then((result) => {
-            this.rootPage = HomePage;
-        }, (error) => {
-            this.rootPage = LoginPage;
-        });
 
         // used for an example of ngFor and navigation
         this.pages = [
             {title: 'Home', component: HomePage, pageName: 'HomePage', iconName: 'ios-home'},
-            {title: 'Building List', component: '', pageName: 'BuildingListPage', iconName: 'ios-reorder'},
             {title: 'Sign Out', component: '', pageName: '', iconName: 'ios-log-out-outline'}
         ];
 
+        //check auth
+        this.auth.isAuthenticated().then((result) => {
+            this.rootPage = HomePage;
+            this.resetMenu();
+
+        }, (error) => {
+            this.rootPage = LoginPage;
+        });
+
+        this.events.subscribe('user:signin', () => {
+            this.resetMenu();
+        })
     }
 
     initializeApp() {
@@ -51,7 +55,7 @@ export class MyApp {
         if (page.component == '') {
             if (page.pageName == '') {
                 this.auth.logout().then(() => {
-                    this.nav.setRoot('LoginPage');
+                    this.rootPage = LoginPage;
                 });
             }else {
                 this.nav.setRoot(page.pageName);
@@ -59,5 +63,17 @@ export class MyApp {
         }else {
             this.nav.setRoot(page.component);
         }
+    }
+
+    private resetMenu() {
+        this.auth.getUser().then((user) => {
+            if (user['level'] == 7) {
+                this.pages = [
+                    {title: 'Home', component: HomePage, pageName: 'HomePage', iconName: 'ios-home'},
+                    {title: 'Building List', component: '', pageName: 'BuildingListPage', iconName: 'ios-reorder'},
+                    {title: 'Sign Out', component: '', pageName: '', iconName: 'ios-log-out-outline'}
+                ];
+            }
+        })
     }
 }
