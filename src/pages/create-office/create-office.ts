@@ -23,6 +23,8 @@ export class CreateOfficePage {
     office: any;
     loading: Loading;
     offices: FirebaseListObservable<any>;
+    owner: any;
+    renter: any;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private buildingService: BuildingProvider, private db: AngularFireDatabase, private common: CommonProvider, private loadingCtrl: LoadingController) {
         this.offices = this.db.list('/offices', {preserveSnapshot: true});
@@ -45,28 +47,38 @@ export class CreateOfficePage {
             garages: '',
             coPay: '',
             is_rented: false,
-            can_create_employee: false,
-            can_pre_authorize: false,
-            can_maintenance: false,
-            can_mail_view: false,
-            employees: {},
-            owner: {
-                first_name: '',
-                last_name: '',
-                phone_number: '',
-                email: '',
-                id: '',
-                blood_type: ''
-            },
-            renter: {
-                first_name: '',
-                last_name: '',
-                phone_number: '',
-                email: '',
-                id: '',
-                blood_type: ''
-            }
+            employees: {}
+        };
+        this.owner = {
+            first_name: '',
+            last_name: '',
+            phone_number: '',
+            email: '',
+            level: 3.1, // Office Renter (Owner)
+            password: this.makePassword(),
+            blood_type: '',
+            officeKey: ''
+        };
+        this.renter = {
+            first_name: '',
+            last_name: '',
+            phone_number: '',
+            email: '',
+            level: 3.2, // Office Renter (Owner)
+            password: this.makePassword(),
+            blood_type: '',
+            officeKey: ''
         }
+    }
+
+    private makePassword() {
+        let text = "";
+        let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (let i = 0; i < 5; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
     }
 
     public updateFloors() {
@@ -81,7 +93,15 @@ export class CreateOfficePage {
     public createOffice() {
         this.loading = this.loadingCtrl.create();
         this.loading.present();
-        this.offices.push(this.office).then(_ => {
+        this.offices.push(this.office).then(res => {
+            let officeKey = res.path.o[1];
+            console.log(officeKey);
+            this.owner.officeKey = officeKey;
+            this.renter.officeKey = officeKey;
+            let users = this.db.list('/users', {preserveSnapshot: true});
+            users.push(this.owner);
+            users.push(this.renter);
+
             this.loading.dismiss();
             this.common.showAlert('Office is created successfully!');
             this.navCtrl.pop();

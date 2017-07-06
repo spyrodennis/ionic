@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ItemSliding} from 'ionic-angular';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
 import {BuildingProvider} from '../../providers/building/building';
@@ -23,13 +23,14 @@ export class OfficeProfilePage {
     office: any;
     employee: any;
     employees: any;
+    owner: any;
+    renter: any;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider) {
         this.officeId = navParams.get('officeId');
-        this.office = {
-            owner: {},
-            renter: {}
-        };
+        this.office = {};
+        this.owner = {};
+        this.renter = {};
         this.employee = {};
         this.employees = [];
     }
@@ -80,23 +81,37 @@ export class OfficeProfilePage {
         console.log('ionViewDidLoad OfficeProfilePage');
     }
 
+    private makePassword() {
+        let text = "";
+        let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (let i = 0; i < 5; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    }
 
     private init() {
         this.employee = {
             first_name: '',
             last_name: '',
+            password: this.makePassword(),
             phone_number: '',
             email: '',
-            id: '',
+            level: 4,  // Office Employee + Assigned Access
             blood_type: '',
-            officeKey: this.officeId
+            officeKey: this.officeId,
+            can_create_employee: false,
+            can_pre_authorize: false,
+            can_maintenance: false,
+            can_mail_view: false,
         };
     }
 
     private loadEmployees() {
         this.employees = [];
 
-        let employees = this.db.list('/employees',  {
+        let employees = this.db.list('/users',  {
             preserveSnapshot: true,
             query: {
                 orderByChild: 'officeKey',
@@ -112,7 +127,14 @@ export class OfficeProfilePage {
 
                 let employee = snapshot.val();
                 employee.$id = snapshot.key;
-                this.employees.push(employee);
+
+                if (employee.level == 3.1) {
+                    this.owner = employee;
+                }else if (employee.level == 3.2) {
+                    this.renter = employee;
+                }else if (employee.level == 4) {
+                    this.employees.push(employee);
+                }
             });
         });
     }
@@ -121,15 +143,12 @@ export class OfficeProfilePage {
         let office = this.db.object('/offices/'+this.officeId);
 
         office.update({
-            is_rented: this.office.is_rented,
-            can_create_employee: this.office.can_create_employee,
-            can_pre_authorize: this.office.can_pre_authorize,
-            can_maintenance: this.office.can_maintenance,
-            can_mail_view: this.office.can_mail_view
+            is_rented: this.office.is_rented
         });
 
         if (this.employee.first_name != '' && this.employee.last_name != '') {
-            let employees = this.db.list('/employees', {preserveSnapshot: true});
+            let employees = this.db.list('/users', {preserveSnapshot: true});
+            console.log(this.employee);
             employees.push(this.employee).then(_ => {
                 this.loadEmployees();
                 this.init();
@@ -137,5 +156,10 @@ export class OfficeProfilePage {
         }
 
         this.common.showAlert('Office updated successfully!');
+    }
+
+    public editEmployee(employee, slidingItem: ItemSliding) {
+        slidingItem.close();
+        this.navCtrl.push('EmployeeProfilePage', {employeeId: employee.$id})
     }
 }

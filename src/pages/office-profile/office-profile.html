@@ -63,7 +63,7 @@
             <ion-avatar item-start>
                 <img src="assets/images/user_profile.png">
             </ion-avatar>
-            <h2>{{office.owner.first_name + ' ' + office.owner.last_name}}</h2>
+            <h2>{{owner.first_name + ' ' + owner.last_name}}</h2>
         </ion-item>
     </ion-list>
 
@@ -76,7 +76,7 @@
             <ion-avatar item-start>
                 <img src="assets/images/user_profile.png">
             </ion-avatar>
-            <h2>{{office.renter.first_name + ' ' + office.renter.last_name}}</h2>
+            <h2>{{renter.first_name + ' ' + renter.last_name}}</h2>
         </ion-item>
     </ion-list>
 
@@ -85,12 +85,22 @@
             EMPLOYEES LIST
         </ion-list-header>
 
-        <ion-item *ngFor="let item of employees">
-            <ion-avatar item-start>
-                <img src="assets/images/user_profile.png">
-            </ion-avatar>
-            <h2>{{item.first_name + ' ' + item.last_name}}</h2>
-        </ion-item>
+        <ion-item-sliding *ngFor="let item of employees" #slidingItem>
+            <ion-item>
+                <ion-avatar item-start>
+                    <img src="assets/images/user_profile.png">
+                </ion-avatar>
+                <h2>{{item.first_name + ' ' + item.last_name}}</h2>
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="primary" (click)="editEmployee(item, slidingItem)">
+                    Edit
+                </button>
+                <button ion-button color="danger">
+                    Delete
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
     </ion-list>
 
 
@@ -107,16 +117,16 @@
             <ion-input type="text" [(ngModel)]="employee.last_name"></ion-input>
         </ion-item>
         <ion-item>
+            <ion-label fixed>Password</ion-label>
+            <ion-input type="text" [(ngModel)]="employee.password"></ion-input>
+        </ion-item>
+        <ion-item>
             <ion-label fixed>Phone Number</ion-label>
             <ion-input type="text" [(ngModel)]="employee.phone_number"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label fixed>Email Address</ion-label>
             <ion-input type="text" [(ngModel)]="employee.email"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label fixed>ID #</ion-label>
-            <ion-input type="text" [(ngModel)]="employee.id"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label fixed>Blood Type</ion-label>
@@ -130,19 +140,19 @@
         </ion-list-header>
         <ion-item>
             <ion-label>CREATE EMPLOYEES</ion-label>
-            <ion-checkbox [(ngModel)]="office.can_create_employee"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="employee.can_create_employee"></ion-checkbox>
         </ion-item>
         <ion-item>
             <ion-label>PRE-AUTHORIZE VISITORS</ion-label>
-            <ion-checkbox [(ngModel)]="office.can_pre_authorize"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="employee.can_pre_authorize"></ion-checkbox>
         </ion-item>
         <ion-item>
             <ion-label>MAINTENANCE VIEW</ion-label>
-            <ion-checkbox [(ngModel)]="office.can_maintenance"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="employee.can_maintenance"></ion-checkbox>
         </ion-item>
         <ion-item>
             <ion-label>MAIL VIEW</ion-label>
-            <ion-checkbox [(ngModel)]="office.can_mail_view"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="employee.can_mail_view"></ion-checkbox>
         </ion-item>
     </ion-list>
 
