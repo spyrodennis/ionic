@@ -22,12 +22,12 @@
         <ion-item>
             <ion-label>Request</ion-label>
             <div item-content style="width: 70%;">
-                <textarea placeholder="You comments" style="width: 100%; height: 80px;"></textarea>
+                <textarea placeholder="You comments" style="width: 100%; height: 80px;" [(ngModel)]="otrsRequest.comment"></textarea>
             </div>
         </ion-item>
 
         <ion-item>
-            <ion-toggle></ion-toggle>
+            <ion-toggle [(ngModel)]="otrsRequest.is_urgent"></ion-toggle>
             <ion-label>
                 Mark As Urgent
             </ion-label>

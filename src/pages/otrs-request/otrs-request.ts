@@ -28,6 +28,10 @@ export class OtrsRequestPage {
         this.auth.getUser().then(user => {
             this.officeKey = user['officeKey'];
         });
+        this.otrsRequest = {
+            comment: '',
+            is_urgent: false
+        };
     }
 
     ionViewDidLoad() {
