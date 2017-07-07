@@ -71,6 +71,7 @@ export class MyApp {
                 this.pages = [
                     {title: 'Home', component: HomePage, pageName: 'HomePage', iconName: 'ios-home'},
                     {title: 'Building List', component: '', pageName: 'BuildingListPage', iconName: 'ios-reorder'},
+                    {title: 'Maintenance', component: '', pageName: 'MaintenanceViewPage', iconName: 'ios-thunderstorm'},
                     {title: 'Sign Out', component: '', pageName: '', iconName: 'ios-log-out-outline'}
                 ];
             }else if (user['level'] == 4) {
@@ -81,6 +82,12 @@ export class MyApp {
                         {title: 'Sign Out', component: '', pageName: '', iconName: 'ios-log-out-outline'}
                     ];
                 }
+            }else if (user['level'] == 3.2) {
+                this.pages = [
+                    {title: 'Home', component: HomePage, pageName: 'HomePage', iconName: 'ios-home'},
+                    {title: 'Maintenance', component: '', pageName: 'MaintenanceViewPage', iconName: 'ios-thunderstorm'},
+                    {title: 'Sign Out', component: '', pageName: '', iconName: 'ios-log-out-outline'}
+                ];
             }
         })
     }
