@@ -7,6 +7,9 @@
 <ion-header>
 
     <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
         <ion-title>Maintenance View</ion-title>
     </ion-navbar>
 
@@ -15,4 +18,28 @@
 
 <ion-content padding>
     <button ion-button block (click)="createNewRequest()">SUBMIT NEW REQUEST</button>
+
+    <ion-list style="margin-top: 20px;" *ngIf="openedRequests.length > 0">
+        <ion-list-header>
+            Open Requests
+        </ion-list-header>
+
+        <ion-item *ngFor="let item of openedRequests" (click)="viewRequest(item)">
+            <ion-icon ios="ios-document" md="md-document"></ion-icon>
+            Office #
+            <ion-note item-end>{{item.officeKey}}</ion-note>
+        </ion-item>
+    </ion-list>
+
+    <ion-list style="margin-top: 20px;" *ngIf="closedRequests.length > 0">
+        <ion-list-header>
+            Open Requests
+        </ion-list-header>
+
+        <ion-item *ngFor="let item of closedRequests" (click)="viewRequest()">
+            <ion-icon ios="ios-document" md="md-document"></ion-icon>
+            Office #
+            <ion-note item-end>{{item.officeKey}}</ion-note>
+        </ion-item>
+    </ion-list>
 </ion-content>

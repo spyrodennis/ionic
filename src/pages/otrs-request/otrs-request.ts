@@ -1,10 +1,12 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ActionSheetController} from 'ionic-angular';
+import {Camera} from 'ionic-native';
 import {AuthProvider} from '../../providers/auth/auth';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
 import {BuildingProvider} from '../../providers/building/building';
 import {CommonProvider} from '../../providers/common/common';
+import * as moment from 'moment';
 
 /**
  * Generated class for the OtrsRequestPage page.
@@ -23,15 +25,24 @@ export class OtrsRequestPage {
     loading: Loading;
     officeKey: any;
     otrsRequest: any;
+    userKey: any;
+    requests: FirebaseListObservable<any>;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider, public actionSheetCtrl: ActionSheetController) {
         this.auth.getUser().then(user => {
+            console.log(user);
+            this.userKey = user['id'];
             this.officeKey = user['officeKey'];
         });
         this.otrsRequest = {
             comment: '',
-            is_urgent: false
+            is_urgent: false,
+            photos: [],
+            step: 1,
+            created_at: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
         };
+        this.office = {};
+        this.requests = this.db.list('/maintenance_requests', {preserveSnapshot: true});
     }
 
     ionViewDidLoad() {
@@ -60,6 +71,7 @@ export class OtrsRequestPage {
 
                 this.office = snapshot.val();
 
+                this.office.$id = snapshot.key;
                 let buildings = this.buildingService.list();
                 for (let i = 0; i < buildings.length; i ++) {
                     if (buildings[i].id == this.office.buildingId) {
@@ -74,6 +86,70 @@ export class OtrsRequestPage {
                 }
             });
         });
+    }
+
+    addPhoto() {
+        let actionSheet = this.actionSheetCtrl.create({
+            buttons: [
+                {
+                    text: 'Take Photo',
+                    handler: () => {
+                        Camera.getPicture({
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            sourceType: Camera.PictureSourceType.CAMERA,
+                            allowEdit: true,
+                            encodingType: Camera.EncodingType.JPEG,
+                            saveToPhotoAlbum: false
+                        }).then((imageData) => {
+                            let imgData = "data:image/jpeg;base64," + imageData;
+                            console.log(imgData);
+                            this.otrsRequest.photos.push(imgData);
+                        }, (err) => {
+                            console.log(err);
+                        })
+                    }
+                },
+                {
+                    text: 'Choose Photo',
+                    handler: () => {
+                        Camera.getPicture({
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                            allowEdit: true,
+                            encodingType: Camera.EncodingType.JPEG,
+                            saveToPhotoAlbum: false
+                        }).then((imageData) => {
+                            let imgData = "data:image/jpeg;base64," + imageData;
+                            console.log(imgData);
+                            this.otrsRequest.photos.push(imgData);
+                        }, (err) => {
+                            console.log(err);
+                        })
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler:() => {
+                        console.log('Cancel clicked');
+                    }
+                }
+            ]
+        });
+        actionSheet.present();
+    }
+
+    createNewRequest() {
+        this.otrsRequest.userKey = this.userKey;
+        this.otrsRequest.officeKey = this.officeKey;
+
+        this.loading = this.loadingCtrl.create();
+        this.loading.present();
+        this.requests.push(this.otrsRequest).then(res => {
+            this.loading.dismiss();
+            this.common.showAlert('Request is submitted successfully!');
+            this.navCtrl.pop();
+        })
     }
 
 }

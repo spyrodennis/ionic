@@ -67,6 +67,7 @@ export class MyApp {
 
     private resetMenu() {
         this.auth.getUser().then((user) => {
+            console.log(user);
             if (user['level'] == 7) {
                 this.pages = [
                     {title: 'Home', component: HomePage, pageName: 'HomePage', iconName: 'ios-home'},

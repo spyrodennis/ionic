@@ -34,10 +34,33 @@
         </ion-item>
     </ion-list>
 
-    <button ion-button icon-left>
+    <button ion-button icon-left block (click)="addPhoto()">
         <ion-icon ios="ios-camera" md="md-camera"></ion-icon>
         Attach Photo
     </button>
 
+    <ion-row *ngIf="otrsRequest.photos.length > 0">
+        <ion-col col-3 *ngFor="let item of otrsRequest.photos; let i = index;">
+            <img src="{{item}}"/>
+        </ion-col>
+    </ion-row>
 
+    <ion-list style="margin-top: 30px;">
+        <ion-list-header>
+            Office Detail
+        </ion-list-header>
+        <ion-item>
+            <ion-avatar item-start>
+                <img src="assets/images/working-icon.png">
+            </ion-avatar>
+            <h2>{{office.company}}</h2>
+            <p>{{office.name}}</p>
+        </ion-item>
+        <ion-item>
+            <ion-label fixed>Office #</ion-label>
+            <ion-note item-end>{{office.$id}}</ion-note>
+        </ion-item>
+    </ion-list>
+
+    <button ion-button block (click)="createNewRequest()">SUBMIT NEW REQUEST</button>
 </ion-content>

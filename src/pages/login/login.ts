@@ -61,7 +61,7 @@ export class LoginPage {
                     console.log(snapshot.key);
                     console.log(snapshot.val());
                     let user = snapshot.val();
-
+                    user.id = snapshot.key;
                     this.auth.setUser(user).then((res) => {
                         this.events.publish('user:signin');
                     });
