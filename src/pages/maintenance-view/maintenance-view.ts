@@ -77,7 +77,7 @@ export class MaintenanceViewPage {
                 let request = snapshot.val();
                 request.$id = snapshot.key;
 
-                if (request.step >= 4) {
+                if (request.step >= 5) {
                     this.closedRequests.push(request);
                 }else {
                     this.openedRequests.push(request);
@@ -106,6 +106,7 @@ export class MaintenanceViewPage {
         requests.subscribe(snapshots => {
 
             this.loading.dismiss();
+            this.requests = [];
 
             snapshots.forEach(snapshot => {
                 console.log(snapshot.key);
@@ -114,7 +115,7 @@ export class MaintenanceViewPage {
                 let request = snapshot.val();
                 request.$id = snapshot.key;
 
-                if (request.step >= 4) {
+                if (request.step >= 5) {
                     this.closedRequests.push(request);
                 }else {
                     this.openedRequests.push(request);

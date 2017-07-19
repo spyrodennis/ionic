@@ -17,7 +17,7 @@
 
 
 <ion-content padding>
-    <button ion-button block (click)="createNewRequest()">SUBMIT NEW REQUEST</button>
+    <button ion-button block (click)="createNewRequest()" *ngIf="user.level < 7">SUBMIT NEW REQUEST</button>
 
     <ion-list style="margin-top: 20px;" *ngIf="openedRequests.length > 0">
         <ion-list-header>
@@ -33,10 +33,10 @@
 
     <ion-list style="margin-top: 20px;" *ngIf="closedRequests.length > 0">
         <ion-list-header>
-            Open Requests
+            Archived / Closed Requests
         </ion-list-header>
 
-        <ion-item *ngFor="let item of closedRequests" (click)="viewRequest()">
+        <ion-item *ngFor="let item of closedRequests" (click)="viewRequest(item)">
             <ion-icon ios="ios-document" md="md-document"></ion-icon>
             Office #
             <ion-note item-end>{{item.officeKey}}</ion-note>

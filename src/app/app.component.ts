@@ -55,7 +55,7 @@ export class MyApp {
         if (page.component == '') {
             if (page.pageName == '') {
                 this.auth.logout().then(() => {
-                    this.rootPage = LoginPage;
+                    this.nav.setRoot(LoginPage);
                 });
             }else {
                 this.nav.setRoot(page.pageName);
@@ -68,11 +68,12 @@ export class MyApp {
     private resetMenu() {
         this.auth.getUser().then((user) => {
             console.log(user);
-            if (user['level'] == 7) {
+            if (user['level'] == 7 || user['level'] == 8) {
                 this.pages = [
                     {title: 'Home', component: HomePage, pageName: 'HomePage', iconName: 'ios-home'},
                     {title: 'Building List', component: '', pageName: 'BuildingListPage', iconName: 'ios-reorder'},
                     {title: 'Maintenance', component: '', pageName: 'MaintenanceViewPage', iconName: 'ios-thunderstorm'},
+                    {title: 'Kiosk', component: '', pageName: 'KioskViewPage', iconName: 'ios-finger-print'},
                     {title: 'Sign Out', component: '', pageName: '', iconName: 'ios-log-out-outline'}
                 ];
             }else if (user['level'] == 4) {

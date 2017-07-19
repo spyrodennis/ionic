@@ -27,6 +27,7 @@ export class OtrsRequestPage {
     otrsRequest: any;
     userKey: any;
     requests: FirebaseListObservable<any>;
+    steps: FirebaseListObservable<any>;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider, public actionSheetCtrl: ActionSheetController) {
         this.auth.getUser().then(user => {
@@ -43,6 +44,7 @@ export class OtrsRequestPage {
         };
         this.office = {};
         this.requests = this.db.list('/maintenance_requests', {preserveSnapshot: true});
+        this.steps = this.db.list('/maintenance_steps', {preserveSnapshot: true});
     }
 
     ionViewDidLoad() {
@@ -146,9 +148,48 @@ export class OtrsRequestPage {
         this.loading = this.loadingCtrl.create();
         this.loading.present();
         this.requests.push(this.otrsRequest).then(res => {
-            this.loading.dismiss();
-            this.common.showAlert('Request is submitted successfully!');
-            this.navCtrl.pop();
+            console.log(res);
+
+            let requestKey = res.path.o[1];
+            let newSteps = {
+                maintenanceKey: requestKey,
+                1: {
+                    status: 0,
+                    quote: '',
+                    updated_at: ''
+                },
+                2: {
+                    status: 0,
+                    technician_date: '',
+                    technician_time: '',
+                    technician_name: '',
+                    technician_company: '',
+                    technician_phone: '',
+                    updated_at: ''
+                },
+                3: {
+                    status: 0,
+                    is_completed: false,
+                    updated_at: ''
+                },
+                4: {
+                    is_paid: false,
+                    status: 0,
+                    updated_at: ''
+                },
+                5: {
+                    star: '',
+                    comment: '',
+                    status: 0,
+                    updated_at: ''
+                }
+            };
+
+            this.steps.push(newSteps).then(res => {
+                this.loading.dismiss();
+                this.common.showAlert('Request is submitted successfully!');
+                this.navCtrl.pop();
+            });
         })
     }
 
