@@ -70,6 +70,10 @@ export class MaintenanceViewPage {
 
             this.loading.dismiss();
 
+            this.requests = [];
+            this.openedRequests = [];
+            this.closedRequests = [];
+
             snapshots.forEach(snapshot => {
                 console.log(snapshot.key);
                 console.log(snapshot.val());

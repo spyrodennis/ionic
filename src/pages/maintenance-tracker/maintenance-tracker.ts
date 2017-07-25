@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ActionSheetController} from 'ionic-angular';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
 import {AuthProvider} from '../../providers/auth/auth';
 import {BuildingProvider} from '../../providers/building/building';
+import {Camera} from 'ionic-native';
 
 /**
  * Generated class for the MaintenanceTrackerPage page.
@@ -48,7 +49,12 @@ export class MaintenanceTrackerPage {
     //step 4
     is_paid: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private auth: AuthProvider, private buildingService: BuildingProvider) {
+    //step 5
+    showInvoice: any;
+    rate: any;
+    comment: any;
+
+    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private auth: AuthProvider, private buildingService: BuildingProvider, private actionSheetCtrl: ActionSheetController) {
         this.requestKey = this.navParams.get('requestKey');
         this.request = {};
         this.requestDetail = {
@@ -113,6 +119,11 @@ export class MaintenanceTrackerPage {
 
         //step 4
         this.is_paid = false;
+
+        //step 5
+        this.showInvoice = false;
+        this.rate = 5;
+        this.comment = '';
     }
 
     ionViewDidEnter() {
@@ -325,9 +336,60 @@ export class MaintenanceTrackerPage {
     public payInvoice() {
         let step = this.db.object('/maintenance_steps/'+this.requestDetailKey+'/3');
 
-        step.update({
-            status: 1,
+        let actionSheet = this.actionSheetCtrl.create({
+            buttons: [
+                {
+                    text: 'Take Photo',
+                    handler: () => {
+                        Camera.getPicture({
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            sourceType: Camera.PictureSourceType.CAMERA,
+                            allowEdit: true,
+                            encodingType: Camera.EncodingType.JPEG,
+                            saveToPhotoAlbum: false
+                        }).then((imageData) => {
+                            let imgData = "data:image/jpeg;base64," + imageData;
+                            console.log(imgData);
+                            step.update({
+                                status: 1,
+                                invoice: imgData
+                            });
+                        }, (err) => {
+                            console.log(err);
+                        })
+                    }
+                },
+                {
+                    text: 'Choose Photo',
+                    handler: () => {
+                        Camera.getPicture({
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                            allowEdit: true,
+                            encodingType: Camera.EncodingType.JPEG,
+                            saveToPhotoAlbum: false
+                        }).then((imageData) => {
+                            let imgData = "data:image/jpeg;base64," + imageData;
+                            console.log(imgData);
+                            step.update({
+                                status: 1,
+                                invoice: imgData
+                            });
+                        }, (err) => {
+                            console.log(err);
+                        })
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler:() => {
+                        console.log('Cancel clicked');
+                    }
+                }
+            ]
         });
+        actionSheet.present();
     }
 
     public paidInvoice() {
@@ -343,4 +405,23 @@ export class MaintenanceTrackerPage {
     }
 
 
+    public viewInvoice() {
+        this.showInvoice = !this.showInvoice;
+    }
+
+    public leaveReview() {
+        let step = this.db.object('/maintenance_steps/'+this.requestDetailKey+'/5');
+        step.update({
+            star: this.rate,
+            comment: this.comment,
+            status: 1
+        });
+    }
+
+    public archiveRequest() {
+        let request = this.db.object('/maintenance_requests/'+this.requestKey);
+        request.update({
+            step: 6
+        });
+    }
 }

@@ -169,6 +169,7 @@ export class OtrsRequestPage {
                 },
                 3: {
                     status: 0,
+                    invoice: '',
                     is_completed: false,
                     updated_at: ''
                 },
