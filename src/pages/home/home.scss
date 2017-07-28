@@ -32,4 +32,43 @@ page-home {
           right: 0;
           margin: auto;
     }
+    .dashboard {
+        background-image: url(../../assets/img/torreA.jpg);
+        background-size: cover;
+        background-position:  center center;
+	    background-repeat: no-repeat;
+    }
+    .alerts {
+        background-image: url(../../assets/img/torreA.jpg);
+        background-size: cover;
+        background-position:  center center;
+	    background-repeat: no-repeat;
+    }
+    .news {
+        background-image: url(../../assets/img/torreA.jpg);
+        background-size: cover;
+        background-position:  center center;
+	    background-repeat: no-repeat;
+    }
+    .torreA {
+        background-image: url(../../assets/img/torreA.jpg);
+        background-size: cover;
+        background-position:  center center;
+	    background-repeat: no-repeat;
+    }
+    .torreB {
+        background-image: url(../../assets/img/torreB.jpg);
+        background-size: cover;
+        background-position:  center center;
+	    background-repeat: no-repeat;
+    }
+    .torreC {
+        background-image: url(../../assets/img/torreC.jpg);
+        background-size: cover;
+        background-position:  center center;
+	    background-repeat: no-repeat;
+    }
+    div.input-wrapper {
+        text-align:center !important;
+    }
 }
