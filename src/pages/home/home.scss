@@ -3,7 +3,7 @@ page-home {
         margin: 0px !important;
         width: 100% !important;
         height: 100% !important;
-        background-image: url("http://alphavictoriastudios.com/wtcb.jpg") !important;
+        background-image: url("../../assets/img/wtcb.jpg") !important;
     background-size: cover !important;
     background-repeat: no-repeat !important;
     background-position: 50% 50% !important;
@@ -13,6 +13,9 @@ page-home {
     }
     CODE {
         background: #EFEFEF;
+    }
+    ion-content {
+        background: #151515;
     }
     ion-grid {
         height: calc(100vh - 55px);
@@ -33,7 +36,7 @@ page-home {
           margin: auto;
     }
     .dashboard {
-        background-image: url(../../assets/img/torreA.jpg);
+        background-image: url(../../assets/img/wtcb.jpg);
         background-size: cover;
         background-position:  center center;
 	    background-repeat: no-repeat;
