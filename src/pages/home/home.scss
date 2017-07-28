@@ -8,4 +8,28 @@ page-home {
     background-repeat: no-repeat !important;
     background-position: 50% 50% !important;
     }
+    SCROLL-CONTENT {
+	   overflow-y: auto !important;
+    }
+    CODE {
+        background: #EFEFEF;
+    }
+    ion-grid {
+        height: calc(100vh - 55px);
+        overflow:hidden !important;
+    }
+    .notice-header {
+        height:35vh !important;
+    }
+    .wtc-container {
+        height:65vh !important;
+    }
+    .superfill {
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          margin: auto;
+    }
 }

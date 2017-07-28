@@ -8,8 +8,122 @@
 </ion-header>
 
 <ion-content no-padding>
-    <ion-card>
+    <ion-content>
+    <ion-grid>
+  <ion-row class="notice-header">
+    <ion-col style="background-color:black;color:white;">
+      <ion-slides pager="true" class="superfill">
+        <ion-slide>
+          <h1>Slide 1</h1>
+        </ion-slide>
+        <ion-slide>
+          <h1>Slide 2</h1>
+        </ion-slide>
+        <ion-slide>
+          <h1>Slide 3</h1>
+        </ion-slide>
+      </ion-slides>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="wtc-container">
+    <ion-col col-8 style="background-color:orange;color:white;">
+      <ion-slides pager="true" class="superfill">
+        <ion-slide>
+          <h1>Slide 1</h1>
+        </ion-slide>
+        <ion-slide>
+          <h1>Slide 2</h1>
+        </ion-slide>
+        <ion-slide>
+          <h1>Slide 3</h1>
+        </ion-slide>
+      </ion-slides>
+    </ion-col>
+    <ion-col col-4 style="background-color:#EFEFEF;color:white;" scrollY="true">
+      <ion-list>
+        <ion-list-header>
+          DEPARTAMENTOS
+        </ion-list-header>
+
+          <!-- Sliding item -->
+        <ion-item-sliding>
+          <ion-item>
+                <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
+          </ion-item>
+          <ion-item-options>
+            <button ion-button color="primary" (click)="archive()">Abrir</button>
+          </ion-item-options>
+        </ion-item-sliding>
+          
+        <!-- Sliding item -->
+        <ion-item-sliding>
+          <ion-item>
+                <button ion-button full>Department</button>
+          </ion-item>
+          <ion-item-options>
+            <button ion-button color="primary" (click)="archive()">Abrir</button>
+          </ion-item-options>
+        </ion-item-sliding>
+          
+        <!-- Sliding item -->
+        <ion-item-sliding>
+          <ion-item>
+                <button ion-button full>Department</button>
+          </ion-item>
+          <ion-item-options>
+            <button ion-button color="primary" (click)="archive()">Abrir</button>
+          </ion-item-options>
+        </ion-item-sliding>
+          
+        <!-- Sliding item -->
+        <ion-item-sliding>
+          <ion-item>
+                <button ion-button full>Department</button>
+          </ion-item>
+          <ion-item-options>
+            <button ion-button color="primary" (click)="archive()">Abrir</button>
+          </ion-item-options>
+        </ion-item-sliding>
+          
+        <!-- Sliding item -->
+        <ion-item-sliding>
+          <ion-item>
+                <button ion-button full>Department</button>
+          </ion-item>
+          <ion-item-options>
+            <button ion-button color="primary" (click)="archive()">Abrir</button>
+          </ion-item-options>
+        </ion-item-sliding>
+          
+        <!-- Sliding item -->
+        <ion-item-sliding>
+          <ion-item>
+                <button ion-button full>Department</button>
+          </ion-item>
+          <ion-item-options>
+            <button ion-button color="primary" (click)="archive()">Abrir</button>
+          </ion-item-options>
+        </ion-item-sliding>
+          
+        <!-- Sliding item -->
+        <ion-item-sliding>
+          <ion-item>
+                <button ion-button full>Department</button>
+          </ion-item>
+          <ion-item-options>
+            <button ion-button color="primary" (click)="archive()">Abrir</button>
+          </ion-item-options>
+        </ion-item-sliding>
+        
+
+      </ion-list>
+    </ion-col>
+
+  </ion-row>
 
 
-    </ion-card>
+
+</ion-grid>
+</ion-content>
 </ion-content>
