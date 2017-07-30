@@ -7,7 +7,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Login</ion-title>
+        
     </ion-navbar>
 
 </ion-header>
@@ -16,19 +16,22 @@
 <ion-content padding>
     <ion-card>
 
-        <img src="assets/images/building.jpg"/>
+        <img src="assets/img/wtcb.jpg"/>
 
         <ion-item>
-            <ion-input type="text" placeholder="Email" [(ngModel)]="user.email"></ion-input>
+            <ion-label stacked>EMAIL</ion-label>
+            <ion-input type="text" placeholder="correo@compania.com" [(ngModel)]="user.email"></ion-input>
         </ion-item>
 
         <ion-item>
-            <ion-input type="password" placeholder="Password" [(ngModel)]="user.password"></ion-input>
+            <ion-label stacked>PASSWORD</ion-label>
+            <ion-input type="password" placeholder="*******" [(ngModel)]="user.password"></ion-input>
         </ion-item>
-
+        <div style="margin-bottom:20px;"></div>
     </ion-card>
 
     <button ion-button clear block color="dark" (click)="doLogin()">Login</button>
 
     <button ion-button clear block (click)="signUp()">Or create an account</button>
+
 </ion-content>
