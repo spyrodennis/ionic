@@ -98,7 +98,7 @@ export class CreateOfficePage {
         this.offices.push(this.office).then(res => {
             console.log(res);
             let officeKey = "";
-            if (typeof res.path.o == "undefiend") {
+            if (!res.path.o) {
                 officeKey = res.path.pieces_[1];
             }else {
                 officeKey = res.path.o[1];
