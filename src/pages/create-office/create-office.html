@@ -63,7 +63,7 @@
         </ion-item>
         <ion-item>
             <ion-label fixed>Phone Number</ion-label>
-            <ion-input type="text" [(ngModel)]="owner.phone_number"></ion-input>
+            <ion-input type="text" [(ngModel)]="owner.phone_number" [textMask]="{mask: phoneMask, guide: true}"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label fixed>Email Address</ion-label>
@@ -89,7 +89,7 @@
         </ion-item>
         <ion-item>
             <ion-label fixed>Phone Number</ion-label>
-            <ion-input type="text" [(ngModel)]="renter.phone_number"></ion-input>
+            <ion-input type="text" [(ngModel)]="renter.phone_number" [textMask]="{mask: phoneMask, guide: true}"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label fixed>Email Address</ion-label>

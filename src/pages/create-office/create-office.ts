@@ -25,9 +25,11 @@ export class CreateOfficePage {
     offices: FirebaseListObservable<any>;
     owner: any;
     renter: any;
+    phoneMask: any;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private buildingService: BuildingProvider, private db: AngularFireDatabase, private common: CommonProvider, private loadingCtrl: LoadingController) {
         this.offices = this.db.list('/offices', {preserveSnapshot: true});
+        this.phoneMask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
         this.init();
     }
 
