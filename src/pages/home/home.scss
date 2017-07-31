@@ -81,13 +81,14 @@ page-home {
     .slide-zoom {
         ion-list {
             height: 300px;
-            overflow: scroll;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
             width: 80%;
             margin: auto;
             background: none;
 
             ion-item {
-                background: rgba(255, 255, 255, 0.8);
+                background: rgba(255, 255, 255, 0.7);
             }
         }
     }
