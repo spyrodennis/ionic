@@ -96,7 +96,13 @@ export class CreateOfficePage {
         this.loading = this.loadingCtrl.create();
         this.loading.present();
         this.offices.push(this.office).then(res => {
-            let officeKey = res.path.o[1];
+            console.log(res);
+            let officeKey = "";
+            if (typeof res.path.o == "undefiend") {
+                officeKey = res.path.pieces_[1];
+            }else {
+                officeKey = res.path.o[1];
+            }
             console.log(officeKey);
             this.owner.officeKey = officeKey;
             this.renter.officeKey = officeKey;
