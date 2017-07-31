@@ -77,4 +77,18 @@ page-home {
     div.input-wrapper {
         text-align:center !important;
     }
+
+    .slide-zoom {
+        ion-list {
+            height: 300px;
+            overflow: scroll;
+            width: 80%;
+            margin: auto;
+            background: none;
+
+            ion-item {
+                background: rgba(255, 255, 255, 0.8);
+            }
+        }
+    }
 }
