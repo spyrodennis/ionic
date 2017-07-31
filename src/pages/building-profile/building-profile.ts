@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ItemSliding, Item} from 'ionic-angular';
 import {BuildingProvider} from '../../providers/building/building';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
@@ -71,5 +71,10 @@ export class BuildingProfilePage {
 
     public viewOffice(office) {
         this.navCtrl.push('OfficeProfilePage', {officeId: office.$id});
+    }
+
+    public editOffice(office, slidingItem: ItemSliding) {
+        slidingItem.close();
+        this.navCtrl.push('EditOfficePage', {officeId: office.id});
     }
 }
