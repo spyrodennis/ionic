@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ItemSliding, Item} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ItemSliding} from 'ionic-angular';
 import {BuildingProvider} from '../../providers/building/building';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
