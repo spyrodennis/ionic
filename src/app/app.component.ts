@@ -6,6 +6,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {HomePage} from '../pages/home/home';
 import {LoginPage} from '../pages/login/login';
 import {AuthProvider} from '../providers/auth/auth';
+import {Push, PushToken} from '@ionic/cloud-angular';
 
 @Component({
     templateUrl: 'app.html'
@@ -17,7 +18,7 @@ export class MyApp {
 
     pages: Array<{ title: string, component: any, pageName: string, iconName: string }>;
 
-    constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private auth: AuthProvider, private events: Events) {
+    constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private auth: AuthProvider, private events: Events, public push: Push) {
         this.initializeApp();
 
         // used for an example of ngFor and navigation
@@ -37,7 +38,23 @@ export class MyApp {
 
         this.events.subscribe('user:signin', () => {
             this.resetMenu();
-        })
+        });
+
+        //push configuration
+        platform.ready().then(() => {
+
+            this.push.register().then((t: PushToken) => {
+                return this.push.saveToken(t);
+            }).then((t: PushToken) => {
+                console.log('Token saved:', t.token);
+                this.auth.setDeviceToken(t.token);
+            });
+
+            this.push.rx.notification()
+                .subscribe((msg) => {
+                    console.log('I received awesome push: ' + msg);
+                });
+        });
     }
 
     initializeApp() {

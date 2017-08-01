@@ -150,7 +150,14 @@ export class OtrsRequestPage {
         this.requests.push(this.otrsRequest).then(res => {
             console.log(res);
 
-            let requestKey = res.path.o[1];
+            let requestKey = '';
+
+            if (!res.path.o) {
+                requestKey = res.path.pieces_[1];
+            }else {
+                requestKey = res.path.o[1];
+            }
+
             let newSteps = {
                 maintenanceKey: requestKey,
                 1: {
