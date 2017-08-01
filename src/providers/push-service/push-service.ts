@@ -87,4 +87,47 @@ export class PushServiceProvider {
         });
     }
 
+    public notiUserForRequest(userId, requestId, message) {
+        let userDevices = this.db.list('/user_devices', {
+            preserveSnapshot: true,
+            query: {
+                orderByChild: 'userKey',
+                equalTo: userId,
+            }
+        });
+
+        userDevices.subscribe(snapshots => {
+
+            console.log(snapshots.length);
+
+            snapshots.forEach(snapshot => {
+                console.log(snapshot.key);
+                console.log(snapshot.val());
+
+                let userDevice = snapshot.val();
+                let pushData = {
+                    "tokens": [userDevice['device_token']],
+                    "profile": "test_push",
+                    "notification": {
+                        "message": message,
+                        "payload": {
+                            "type": "request",
+                            "typeKey": requestId
+                        }
+                    }
+                };
+
+                this.http.post(this.PUSH_CREAT_URL, pushData, this.authOpt).map(res => res.json()).subscribe(
+                    data => {
+                        console.log('Notification sent successfully!');
+                    },
+                    err => {
+                        console.log('Notification sending error!');
+                    },
+                    () => console.log('Create Notification')
+                );
+            });
+        });
+    }
+
 }

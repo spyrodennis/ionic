@@ -378,7 +378,7 @@
             <p>{{request.comment}}</p>
         </ion-card-content>
 
-        <ion-slides pager="true" *ngIf="request.photos.length > 0">
+        <ion-slides pager="true" *ngIf="request.photos && request.photos.length > 0">
             <ion-slide *ngFor="let item of request.photos;">
                 <img src="{{item}}"/>
             </ion-slide>
