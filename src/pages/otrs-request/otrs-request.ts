@@ -7,6 +7,7 @@ import {LoadingController, Loading} from 'ionic-angular';
 import {BuildingProvider} from '../../providers/building/building';
 import {CommonProvider} from '../../providers/common/common';
 import * as moment from 'moment';
+import {PushServiceProvider} from '../../providers/push-service/push-service';
 
 /**
  * Generated class for the OtrsRequestPage page.
@@ -29,7 +30,7 @@ export class OtrsRequestPage {
     requests: FirebaseListObservable<any>;
     steps: FirebaseListObservable<any>;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider, public actionSheetCtrl: ActionSheetController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider, public actionSheetCtrl: ActionSheetController, public pushService: PushServiceProvider) {
         this.auth.getUser().then(user => {
             console.log(user);
             this.userKey = user['id'];
@@ -157,6 +158,8 @@ export class OtrsRequestPage {
             }else {
                 requestKey = res.path.o[1];
             }
+
+            this.pushService.notiBuildingManagerForRequest(requestKey, "New request is created!");
 
             let newSteps = {
                 maintenanceKey: requestKey,

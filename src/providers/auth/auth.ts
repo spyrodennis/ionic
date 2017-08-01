@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {Storage} from '@ionic/storage';
+import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 
 /*
  Generated class for the AuthProvider provider.
@@ -13,9 +14,12 @@ export class AuthProvider {
 
     public userKey: any;
     public deviceToken: any;
+    userDevices: FirebaseListObservable<any>;
 
-    constructor(private storage: Storage) {
+    constructor(private storage: Storage, private db: AngularFireDatabase) {
         console.log('Hello AuthProvider Provider');
+
+        this.userDevices = db.list('/user_devices', {preserveSnapshot: true});
 
         storage.ready().then(() => {
             storage.get('user_key').then(userKey => {
@@ -87,6 +91,31 @@ export class AuthProvider {
             this.storage.set('user', user).then(() => {
                 resolve(true);
             });
+        });
+    }
+
+    public registerDeviceToken() {
+
+        if (!this.userKey || !this.deviceToken) return;
+
+        let existDevices = this.db.list('/user_devices', {
+            preserveSnapshot: true,
+            query: {
+                orderByChild: 'userKey',
+                equalTo: this.userKey,
+            }
+        });
+
+        existDevices.subscribe(snapshots => {
+
+            console.log(snapshots.length);
+
+            if (snapshots.length == 0) {
+                this.userDevices.push({
+                    userKey: this.userKey,
+                    device_token: this.deviceToken
+                });
+            }
         });
     }
 }

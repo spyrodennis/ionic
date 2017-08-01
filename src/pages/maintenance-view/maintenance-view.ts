@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Events} from 'ionic-angular';
 import {AuthProvider} from '../../providers/auth/auth';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
@@ -25,7 +25,7 @@ export class MaintenanceViewPage {
     closedRequests: any;
     loading: Loading;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider, private db: AngularFireDatabase, private loadingCtrl: LoadingController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private events: Events) {
         this.user = {
             level: 4
         };
@@ -37,6 +37,10 @@ export class MaintenanceViewPage {
         this.requests = [];
         this.openedRequests = [];
         this.closedRequests = [];
+
+        this.events.subscribe('user:signin', (requestKey) => {
+            this.navCtrl.push('MaintenanceTrackerPage', {requestKey: requestKey});
+        });
     }
 
     ionViewDidEnter() {

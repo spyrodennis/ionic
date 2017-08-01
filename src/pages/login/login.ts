@@ -25,11 +25,9 @@ export class LoginPage {
     };
     loading: Loading;
     users: FirebaseListObservable<any>;
-    userDevices: FirebaseListObservable<any>;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private common: CommonProvider, private auth: AuthProvider, public events: Events) {
         this.users = db.list('/users');
-        this.userDevices = db.list('/user_devices', {preserveSnapshot: true});
     }
 
     ionViewDidLoad() {
@@ -64,15 +62,16 @@ export class LoginPage {
                     console.log(snapshot.val());
                     let user = snapshot.val();
                     user.id = snapshot.key;
-                    this.auth.setUser(user).then((res) => {
-                        this.events.publish('user:signin');
-                    });
 
                     if (user.password != this.user.password) {
                         this.common.showAlert('Your credential is incorrect!');
                     }else {
+                        this.auth.setUser(user).then((res) => {
+                            this.events.publish('user:signin');
+                        });
 
                         this.auth.setToken(snapshot.key).then((result) => {
+                            this.auth.registerDeviceToken();
                             this.navCtrl.setRoot(HomePage);
                         });
                     }

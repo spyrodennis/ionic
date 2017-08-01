@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Nav, Platform, Events} from 'ionic-angular';
+import {Nav, Platform, Events, ToastController} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 
@@ -7,6 +7,7 @@ import {HomePage} from '../pages/home/home';
 import {LoginPage} from '../pages/login/login';
 import {AuthProvider} from '../providers/auth/auth';
 import {Push, PushToken} from '@ionic/cloud-angular';
+import {CommonProvider} from '../providers/common/common';
 
 @Component({
     templateUrl: 'app.html'
@@ -18,7 +19,7 @@ export class MyApp {
 
     pages: Array<{ title: string, component: any, pageName: string, iconName: string }>;
 
-    constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private auth: AuthProvider, private events: Events, public push: Push) {
+    constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private auth: AuthProvider, private events: Events, public push: Push, public common: CommonProvider, public toastCtrl: ToastController) {
         this.initializeApp();
 
         // used for an example of ngFor and navigation
@@ -48,12 +49,40 @@ export class MyApp {
                     return this.push.saveToken(t);
                 }).then((t: PushToken) => {
                     console.log('Token saved:', t.token);
-                    this.auth.setDeviceToken(t.token);
+                    this.auth.setDeviceToken(t.token).then(res => {
+                        this.auth.registerDeviceToken();
+                    });
                 });
 
                 this.push.rx.notification()
                     .subscribe((msg) => {
-                        console.log('I received awesome push: ' + msg);
+                        console.log(msg);
+
+                        let duration:number = 4000;
+
+                        let timeoutHandler = setTimeout( () => { toast.dismiss({autoclose:true}); },duration);
+
+                        let toast = this.toastCtrl.create({
+                            message: msg.text,
+                            showCloseButton: true,
+                            closeButtonText: 'View',
+                            position: 'top'
+                        });
+
+
+                        toast.onDidDismiss((data) => {
+                            clearTimeout(timeoutHandler);
+                            console.log('time elapsed',data);
+                            if(!data || !data.autoclose) {
+                                if (msg.payload['type'] == "request") {
+                                    this.nav.setRoot('Maintenance').then(() => {
+                                        this.events.publish('noti:request', msg.payload['typeKey']);
+                                    });
+                                }
+                            }
+                        });
+                        toast.present();
+
                     });
             });
         }
