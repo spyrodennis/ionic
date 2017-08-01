@@ -59,8 +59,6 @@ export class MyApp {
                         console.log(msg);
 
                         let duration:number = 4000;
-                        let elapsedTime:number = 0;
-                        let autoClose:boolean=true;
 
                         let timeoutHandler = setTimeout( () => { toast.dismiss({autoclose:true}); },duration);
 
@@ -68,6 +66,7 @@ export class MyApp {
                             message: msg.text,
                             showCloseButton: true,
                             closeButtonText: 'View',
+                            position: 'top'
                         });
 
 

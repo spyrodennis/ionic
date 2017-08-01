@@ -75,6 +75,6 @@ export class BuildingProfilePage {
 
     public editOffice(office, slidingItem: ItemSliding) {
         slidingItem.close();
-        this.navCtrl.push('EditOfficePage', {officeId: office.id});
+        this.navCtrl.push('EditOfficePage', {officeId: office.$id});
     }
 }
