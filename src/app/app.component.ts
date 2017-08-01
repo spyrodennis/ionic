@@ -40,21 +40,23 @@ export class MyApp {
             this.resetMenu();
         });
 
-        //push configuration
-        platform.ready().then(() => {
+        if (!this.platform.is('core')) {
+            //push configuration
+            platform.ready().then(() => {
 
-            this.push.register().then((t: PushToken) => {
-                return this.push.saveToken(t);
-            }).then((t: PushToken) => {
-                console.log('Token saved:', t.token);
-                this.auth.setDeviceToken(t.token);
-            });
-
-            this.push.rx.notification()
-                .subscribe((msg) => {
-                    console.log('I received awesome push: ' + msg);
+                this.push.register().then((t: PushToken) => {
+                    return this.push.saveToken(t);
+                }).then((t: PushToken) => {
+                    console.log('Token saved:', t.token);
+                    this.auth.setDeviceToken(t.token);
                 });
-        });
+
+                this.push.rx.notification()
+                    .subscribe((msg) => {
+                        console.log('I received awesome push: ' + msg);
+                    });
+            });
+        }
     }
 
     initializeApp() {

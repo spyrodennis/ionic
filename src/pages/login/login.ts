@@ -25,9 +25,11 @@ export class LoginPage {
     };
     loading: Loading;
     users: FirebaseListObservable<any>;
+    userDevices: FirebaseListObservable<any>;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private common: CommonProvider, private auth: AuthProvider, public events: Events) {
         this.users = db.list('/users');
+        this.userDevices = db.list('/user_devices', {preserveSnapshot: true});
     }
 
     ionViewDidLoad() {

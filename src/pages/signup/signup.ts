@@ -38,7 +38,8 @@ export class SignupPage {
 
     public doSignUp() {
         this.isSignup = true;
-        this.users.push(this.user).then(_ => {
+        this.users.push(this.user).then(res => {
+            console.log(res);
             this.common.showAlert('Your account is created successfully!');
             this.navCtrl.pop();
         })
