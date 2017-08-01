@@ -86,17 +86,9 @@ page-home {
     div.input-wrapper {
         text-align:center !important;
     }
-    .scroll{
-        height: 100% !important;
-    }
-    .item-md h1 {
-        font-family: 'Source Sans Pro Light';
-        padding:27px 0px;
-    }
-    ion-icon {
-        font-size: 5rem;
-        padding:18px 0px;
-    }
+    ion-item-sliding {
+            padding:20px 0px 20px 0px !important;
+        }
     .slide-zoom {
         ion-list {
             height: 300px;
