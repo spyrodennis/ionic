@@ -34,8 +34,8 @@
             <ion-col col-8 style="background-color:orange;color:white;">
                 <ion-slides pager="true" class="superfill">
                     <ion-slide class="torreA">
-                        <h1>TORRE A</h1>
-
+                        
+                        <h1 class="light-font-header">TORRE A</h1>
                         <ion-list>
                             <ion-item *ngFor="let item of buildingOffices(1)" (click)="viewOffice(item)">
                                 {{item.name}}
@@ -43,7 +43,7 @@
                         </ion-list>
                     </ion-slide>
                     <ion-slide class="torreB">
-                        <h1>TORRE B</h1>
+                        <h1 class="light-font-header">TORRE B</h1>
 
                         <ion-list>
                             <ion-item *ngFor="let item of buildingOffices(2)" (click)="viewOffice(item)">
@@ -53,7 +53,7 @@
 
                     </ion-slide>
                     <ion-slide class="torreC">
-                        <h1>TORRE C</h1>
+                        <h1 class="light-font-header">TORRE C</h1>
 
                         <ion-list>
                             <ion-item *ngFor="let item of buildingOffices(3)" (click)="viewOffice(item)">

@@ -4,9 +4,6 @@
 // Font path is used to include ionicons,
 // roboto, and noto sans fonts
 $font-path: "../assets/fonts";
-@import '../assets/fonts/SourceSansPro-Light.ttf';
-@import '../assets/fonts/SourceSansPro-Regular.ttf';
-@import '../assets/fonts/SourceSansPro-Semibold.ttf';
 
 // The app direction is used to include
 // rtl styles in your app. For more info, please see:
@@ -88,3 +85,6 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+@import '../src/assets/fonts/SourceSansPro-Light.ttf';
+@import '../src/assets/fonts/SourceSansPro-Regular.ttf';
+@import '../src/assets/fonts/SourceSansPro-Semibold.ttf';

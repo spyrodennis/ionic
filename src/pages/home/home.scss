@@ -8,6 +8,19 @@ page-home {
     .light-font {
         font-family: 'Source Sans Pro Light';
     }
+    .light-font-header {
+        font-family: 'Source Sans Pro Light';
+        font-size:4rem;
+    }
+    .ion-label {
+        font-family: 'Source Sans Pro Light' !important;
+    }
+    .slide-zoom {
+        height:100%;
+    }
+    ion-list.list.list-md {
+        height:100%;
+    }
     ion-card {
         margin: 0px !important;
         width: 100% !important;
@@ -107,10 +120,11 @@ page-home {
             background: none;
 
             ion-item {
-                font-family: 'Source Sans Pro Semibold' !important;
-                font-weight: bold;
+                font-family: 'Source Sans Pro Light' !important;
+                font-weight: light;
+                font-size: 3rem;
                 color:rgb(85, 133, 168);
-                background-color: rgba(205, 225, 235, 0.77);
+                background-color: rgba(248, 253, 255, 0.89);
                 -webkit-box-shadow: inset 0px 0px 25px -0px rgba(232, 232, 232, 0.35);
                 -moz-box-shadow: inset 0px 0px 25px -0px rgba(232, 232, 232, 0.35);
                 box-shadow: inset 0px 0px 25px -0px rgba(192, 211, 227, 0.35);
