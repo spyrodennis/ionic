@@ -12,6 +12,7 @@ import {Storage} from '@ionic/storage';
 export class AuthProvider {
 
     public userKey: any;
+    public deviceToken: any;
 
     constructor(private storage: Storage) {
         console.log('Hello AuthProvider Provider');
@@ -19,6 +20,10 @@ export class AuthProvider {
         storage.ready().then(() => {
             storage.get('user_key').then(userKey => {
                 this.userKey = userKey;
+            }).catch(console.log);
+
+            storage.get('device_token').then(deviceToken => {
+                this.deviceToken = deviceToken;
             }).catch(console.log);
         });
     }
@@ -32,6 +37,16 @@ export class AuthProvider {
                     else
                         reject(false);
                 }).catch(console.log);
+            });
+        });
+    }
+
+    public setDeviceToken(token) {
+        return new Promise((resolve, reject) => {
+            this.storage.set('device_token', token).then(() => {
+                this.deviceToken = token;
+
+                resolve(true);
             });
         });
     }

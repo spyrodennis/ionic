@@ -14,7 +14,8 @@ import {IonicStorageModule} from '@ionic/storage';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {CommonProvider} from '../providers/common/common';
-import { BuildingProvider } from '../providers/building/building';
+import {BuildingProvider} from '../providers/building/building';
+import {CloudSettings, CloudModule} from '@ionic/cloud-angular';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBBzf4gxU2tEkE7S7myNCrxXxtOgQX2XWs",
@@ -23,6 +24,24 @@ export const firebaseConfig = {
     projectId: "wtcb-9eee6",
     storageBucket: "wtcb-9eee6.appspot.com",
     messagingSenderId: "554352493400"
+};
+
+const cloudSettings: CloudSettings = {
+    'core': {
+        'app_id': '035b2a01'
+    },
+    'push': {
+        'sender_id': '554352493400',
+        'pluginConfig': {
+            'ios': {
+                'badge': true,
+                'sound': true
+            },
+            'android': {
+                'iconColor': '#ff0000'
+            }
+        }
+    }
 };
 
 @NgModule({
@@ -38,6 +57,7 @@ export const firebaseConfig = {
         AngularFireDatabaseModule,
         HttpModule,
         IonicStorageModule.forRoot(),
+        CloudModule.forRoot(cloudSettings)
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -51,7 +71,7 @@ export const firebaseConfig = {
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         AuthProvider,
         CommonProvider,
-    BuildingProvider
+        BuildingProvider
     ]
 })
 export class AppModule {
