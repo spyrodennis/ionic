@@ -16,6 +16,7 @@ import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {CommonProvider} from '../providers/common/common';
 import {BuildingProvider} from '../providers/building/building';
 import {CloudSettings, CloudModule} from '@ionic/cloud-angular';
+import { PushServiceProvider } from '../providers/push-service/push-service';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBBzf4gxU2tEkE7S7myNCrxXxtOgQX2XWs",
@@ -71,7 +72,8 @@ const cloudSettings: CloudSettings = {
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         AuthProvider,
         CommonProvider,
-        BuildingProvider
+        BuildingProvider,
+    PushServiceProvider
     ]
 })
 export class AppModule {
