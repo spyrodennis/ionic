@@ -5,6 +5,7 @@ import {LoadingController, Loading} from 'ionic-angular';
 import {AuthProvider} from '../../providers/auth/auth';
 import {BuildingProvider} from '../../providers/building/building';
 import {Camera} from 'ionic-native';
+import {PushServiceProvider} from '../../providers/push-service/push-service';
 
 /**
  * Generated class for the MaintenanceTrackerPage page.
@@ -54,7 +55,7 @@ export class MaintenanceTrackerPage {
     rate: any;
     comment: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private auth: AuthProvider, private buildingService: BuildingProvider, private actionSheetCtrl: ActionSheetController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private auth: AuthProvider, private buildingService: BuildingProvider, private actionSheetCtrl: ActionSheetController, public pushService: PushServiceProvider) {
         this.requestKey = this.navParams.get('requestKey');
         this.request = {};
         this.requestDetail = {
@@ -287,6 +288,8 @@ export class MaintenanceTrackerPage {
         request.update({
             step: 2
         });
+
+        this.pushService.notiUserForRequest(this.request.userKey, this.request.$id, "Building manager attached quote to your request");
     }
 
     public goToStep3() {
@@ -296,6 +299,8 @@ export class MaintenanceTrackerPage {
             step.update({
                 status: 1,
             });
+
+            this.pushService.notiBuildingManagerForRequest(this.request.$id, "Employee accepted your quote");
         }else {
             let step = this.db.object('/maintenance_steps/'+this.requestDetailKey+'/2');
             step.update({
@@ -310,6 +315,7 @@ export class MaintenanceTrackerPage {
             request.update({
                 step: 3
             });
+            this.pushService.notiUserForRequest(this.request.userKey, this.request.$id, "Building manager scheduled technician time");
         }
     }
 
@@ -320,6 +326,9 @@ export class MaintenanceTrackerPage {
             step.update({
                 status: 1,
             });
+
+            this.pushService.notiBuildingManagerForRequest(this.request.$id, "Employee accepted your schedule");
+
         }else {
             let step = this.db.object('/maintenance_steps/'+this.requestDetailKey+'/3');
             step.update({
@@ -330,6 +339,7 @@ export class MaintenanceTrackerPage {
             request.update({
                 step: 4
             });
+            this.pushService.notiUserForRequest(this.request.userKey, this.request.$id, "Building manager completed your request");
         }
     }
 
@@ -354,6 +364,7 @@ export class MaintenanceTrackerPage {
                                 status: 1,
                                 invoice: imgData
                             });
+                            this.pushService.notiBuildingManagerForRequest(this.request.$id, "Employee paid to your invoice");
                         }, (err) => {
                             console.log(err);
                         })
@@ -375,6 +386,7 @@ export class MaintenanceTrackerPage {
                                 status: 1,
                                 invoice: imgData
                             });
+                            this.pushService.notiBuildingManagerForRequest(this.request.$id, "Employee paid to your invoice");
                         }, (err) => {
                             console.log(err);
                         })
@@ -402,6 +414,7 @@ export class MaintenanceTrackerPage {
         request.update({
             step: 5
         });
+        this.pushService.notiUserForRequest(this.request.userKey, this.request.$id, "Building manager accepted your payment");
     }
 
 
@@ -416,6 +429,7 @@ export class MaintenanceTrackerPage {
             comment: this.comment,
             status: 1
         });
+        this.pushService.notiBuildingManagerForRequest(this.request.$id, "Employee provided feedback");
     }
 
     public archiveRequest() {
@@ -423,5 +437,6 @@ export class MaintenanceTrackerPage {
         request.update({
             step: 6
         });
+        this.pushService.notiUserForRequest(this.request.userKey, this.request.$id, "Building manager archived your request");
     }
 }
