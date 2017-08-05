@@ -62,4 +62,8 @@ export class HomePage {
         this.navCtrl.push('BuildingListPage');
     }
 
+    public viewNotifications() {
+        this.navCtrl.push('NotificationsPage');
+    }
+
 }

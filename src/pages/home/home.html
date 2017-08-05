@@ -34,7 +34,7 @@
             <ion-col col-8 style="background-color:orange;color:white;">
                 <ion-slides pager="true" class="superfill">
                     <ion-slide class="torreA">
-                        
+
                         <h1 class="light-font-header">TORRE A</h1>
                         <ion-list>
                             <ion-item *ngFor="let item of buildingOffices(1)" (click)="viewOffice(item)">
@@ -74,18 +74,18 @@
 
                         </ion-item-options>
                     </ion-item-sliding>
-                    
+
                     <!-- Sliding item -->
-                    <ion-item-sliding (click)="viewBuildingList()">
-                        <ion-item>
+                    <ion-item-sliding>
+                        <ion-item (click)="viewBuildingList()">
                             <h1>TORRES</h1>
                         </ion-item>
                         <ion-item-options>
                             <button ion-button color="primary" (click)="archive()">MANEJAR</button>
                         </ion-item-options>
                     </ion-item-sliding>
-                    
-                    
+
+
                     <!-- Sliding item -->
                     <ion-item-sliding>
                         <ion-item>
@@ -98,7 +98,7 @@
 
                     <!-- Sliding item -->
                     <ion-item-sliding>
-                        <ion-item>
+                        <ion-item  (click)="viewNotifications()">
                             <h1>ALERTAS</h1>
                         </ion-item>
                         <ion-item-options>
@@ -126,7 +126,7 @@
                         </ion-item-options>
                     </ion-item-sliding>
 
-                
+
                 </ion-list>
             </ion-scroll>
 

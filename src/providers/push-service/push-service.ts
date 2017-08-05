@@ -13,7 +13,7 @@ import {AngularFireDatabase} from 'angularfire2/database';
 export class PushServiceProvider {
 
     public authOpt: RequestOptions;
-    private PUSH_CREAT_URL = 'https://api.ionic.io/push/notifications';
+    private PUSH_CREATE_URL = 'https://api.ionic.io/push/notifications';
 
     constructor(public http: Http, private db: AngularFireDatabase) {
         console.log('Hello PushServiceProvider Provider');
@@ -72,7 +72,7 @@ export class PushServiceProvider {
                             }
                         };
 
-                        this.http.post(this.PUSH_CREAT_URL, pushData, this.authOpt).map(res => res.json()).subscribe(
+                        this.http.post(this.PUSH_CREATE_URL, pushData, this.authOpt).map(res => res.json()).subscribe(
                             data => {
                                 console.log('Notification sent successfully!');
                             },
@@ -117,7 +117,7 @@ export class PushServiceProvider {
                     }
                 };
 
-                this.http.post(this.PUSH_CREAT_URL, pushData, this.authOpt).map(res => res.json()).subscribe(
+                this.http.post(this.PUSH_CREATE_URL, pushData, this.authOpt).map(res => res.json()).subscribe(
                     data => {
                         console.log('Notification sent successfully!');
                     },
@@ -130,4 +130,19 @@ export class PushServiceProvider {
         });
     }
 
+
+    public getNotifiactionList() {
+        return new Promise((resolve, reject) => {
+            this.http.get(this.PUSH_CREATE_URL, this.authOpt).map(res => res.json()).subscribe(
+                data => {
+                    console.log(data);
+                    resolve(data);
+                },
+                err => {
+                    reject(false);
+                },
+                () => console.log('Get Notification List')
+            );
+        });
+    }
 }
