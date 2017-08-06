@@ -1,25 +1,4 @@
 page-home {
-    h1 {
-        font-family: 'Source Sans Pro', sans-serif;
-        font-weight: 300 !important;
-    }
-    .semibold-font {
-        font-family: 'Source Sans Pro', sans-serif;
-    }
-    .regular-font {
-        font-family: 'Source Sans Pro', sans-serif;
-    }
-    .light-font {
-        font-family: 'Source Sans Pro', sans-serif;
-        font-weight: 300 !important;
-    }
-    .light-font-header {
-        font-family: 'Source Sans Pro', sans-serif;
-        font-size:4rem;
-    }
-    .ion-label {
-        font-family: 'Source Sans Pro', sans-serif;
-    }
     .slide-zoom {
         height:100%;
     }
@@ -31,9 +10,9 @@ page-home {
         width: 100% !important;
         height: 100% !important;
         background-image: url('../../assets/img/wtcb.jpg') !important;
-    background-size: cover !important;
-    background-repeat: no-repeat !important;
-    background-position: 50% 50% !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        background-position: 50% 50% !important;
     }
     SCROLL-CONTENT {
 	   overflow-y: auto !important;
