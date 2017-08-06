@@ -4,7 +4,12 @@
 // Font path is used to include ionicons,
 // roboto, and noto sans fonts
 $font-path: "../assets/fonts";
-
+@font-face {
+    font-family: 'Trivial', sans-serif;
+    font-weight: 300;
+    font-style: light;
+    src: url('../assets/fonts/Trivial-Light.otf');
+}
 
 @font-face {
     font-family: 'Source Sans Pro', sans-serif;
@@ -45,6 +50,11 @@ h1, h2, button, p {
 }
 .light-font {
     font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+    font-style: light;
+}
+.readout {
+    font-family: 'Trivial', sans-serif;
     font-weight: 300;
     font-style: light;
 }
