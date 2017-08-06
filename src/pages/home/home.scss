@@ -1,19 +1,24 @@
 page-home {
+    h1 {
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 300 !important;
+    }
     .semibold-font {
-        font-family: 'Source Sans Pro Semibold';
+        font-family: 'Source Sans Pro', sans-serif;
     }
     .regular-font {
-        font-family: 'Source Sans Pro Regular';
+        font-family: 'Source Sans Pro', sans-serif;
     }
     .light-font {
-        font-family: 'Source Sans Pro Light';
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 300 !important;
     }
     .light-font-header {
-        font-family: 'Source Sans Pro Light';
+        font-family: 'Source Sans Pro', sans-serif;
         font-size:4rem;
     }
     .ion-label {
-        font-family: 'Source Sans Pro Light' !important;
+        font-family: 'Source Sans Pro', sans-serif;
     }
     .slide-zoom {
         height:100%;
@@ -103,7 +108,7 @@ page-home {
         height: 100% !important;
     }
     .item-md h1 {
-        font-family: 'Source Sans Pro Light';
+        font-family: 'Source Sans Pro', sans-serif;
         padding:27px 0px;
     }
     ion-icon {
@@ -120,8 +125,8 @@ page-home {
             background: none;
 
             ion-item {
-                font-family: 'Source Sans Pro Light' !important;
-                font-weight: light;
+                font-family: 'Source Sans Pro', sans-serif;
+                font-weight: 300;
                 font-size: 3rem;
                 color:rgb(85, 133, 168);
                 background-color: rgba(248, 253, 255, 0.89);

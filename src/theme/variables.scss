@@ -5,6 +5,49 @@
 // roboto, and noto sans fonts
 $font-path: "../assets/fonts";
 
+
+@font-face {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+    font-style: light;
+    src: url('../assets/fonts/SourceSansPro-Light.ttf');
+}
+@font-face {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../assets/fonts/SourceSansPro-Regular.ttf');
+}
+@font-face {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 900;
+    font-style: black;
+    src: url('../assets/fonts/SourceSansPro-Black.ttf');
+}
+$font-family-base: "Source Sans Pro";
+body {
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-weight: 400 !important;
+}
+h1, h2, button, p {
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-weight: 400 !important;
+}
+.semibold-font {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 900;
+    font-style: black;
+}
+.regular-font {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.light-font {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+    font-style: light;
+}
 // The app direction is used to include
 // rtl styles in your app. For more info, please see:
 // http://ionicframework.com/docs/theming/rtl-support/
