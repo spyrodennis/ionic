@@ -6,11 +6,22 @@
 $font-path: "../assets/fonts";
 @font-face {
     font-family: 'Trivial', sans-serif;
+    font-weight: 900;
+    font-style: heavy;
+    src: url('../assets/fonts/Trivial-Heavy.otf');
+}
+@font-face {
+    font-family: 'Trivial', sans-serif;
+    font-weight: 400;
+    font-style: regular;
+    src: url('../assets/fonts/Trivial-Regular.otf');
+}
+@font-face {
+    font-family: 'Trivial', sans-serif;
     font-weight: 300;
     font-style: light;
     src: url('../assets/fonts/Trivial-Light.otf');
 }
-
 @font-face {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 300;
@@ -54,9 +65,34 @@ h1, h2, button, p {
     font-style: light;
 }
 .readout {
-    font-family: 'Trivial', sans-serif;
+    font-family: 'Trivial', sans-serif !important;
     font-weight: 300;
     font-style: light;
+}
+.readout-heavy {
+    font-family: 'Trivial', sans-serif !important;
+    font-weight: 900;
+    font-style: heavy;
+}
+.readout-reg {
+    font-family: 'Trivial', sans-serif !important;
+    font-weight: 400;
+    font-style: regular;
+}
+.lrg-input {
+    font-size:2rem !important;
+    color: #2e2e2e !important;
+    opacity: .8;
+}
+.btn-submit span {
+    font-family: 'Trivial', sans-serif !important;
+    font-weight: 900;
+    font-style: heavy;
+}
+ion-label {
+    font-family: 'Trivial', sans-serif !important;
+    font-weight: 900;
+    font-style: heavy;
 }
 // The app direction is used to include
 // rtl styles in your app. For more info, please see:
