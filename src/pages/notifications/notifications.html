@@ -14,5 +14,9 @@
 
 
 <ion-content padding>
-
+    <ion-card *ngFor="let item of notifications" (click)="viewNotification(item)">
+        <ion-card-content>
+            {{item.config.notification.message}}
+        </ion-card-content>
+    </ion-card>
 </ion-content>
