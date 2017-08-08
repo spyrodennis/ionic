@@ -116,4 +116,39 @@ page-home {
             }
         }
     }
+    .building-info {
+        background: rgba(255, 255, 255, 0.9);
+        position: absolute;
+        bottom: 43px;
+        width: 100%;
+        color: black;
+        font-size: 12px;
+
+        p {
+            color: red;
+            font-size: 17px;
+            margin: 0px;
+        }
+    }
+    .menu-scroll {
+        background: black;
+
+        ion-item-sliding {
+            background: black;
+
+            ion-item {
+                background: black;
+                color: white;
+                padding-left: 0px;
+
+                .item-inner {
+                    padding-right: 0px !important;
+                }
+
+                h1 {
+                    font-size: 18px;
+                }
+            }
+        }
+    }
 }

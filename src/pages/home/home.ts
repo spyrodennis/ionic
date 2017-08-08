@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
+import {BuildingProvider} from '../../providers/building/building';
 
 @Component({
     selector: 'page-home',
@@ -11,9 +12,11 @@ export class HomePage {
 
     loading: Loading;
     offices: any;
+    buildings: any;
 
-    constructor(public navCtrl: NavController, private db: AngularFireDatabase, private loadingCtrl: LoadingController) {
+    constructor(public navCtrl: NavController, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider) {
         this.offices = [];
+        this.buildings = this.buildingService.list();
     }
 
     ionViewDidEnter() {
@@ -43,6 +46,38 @@ export class HomePage {
         });
     }
 
+    public rentedOffices(buildingId) {
+        let count = 0;
+        for (let i = 0; i < this.offices.length; i ++) {
+            if (this.offices[i]['buildingId'] == buildingId && this.offices[i]['is_rented']) {
+                count ++;
+            }
+        }
+        return count;
+    }
+
+    public vacantOffices(buildingId) {
+        let count = 0;
+        for (let i = 0; i < this.offices.length; i ++) {
+            if (this.offices[i]['buildingId'] == buildingId && !this.offices[i]['is_rented']) {
+                count ++;
+            }
+        }
+        return count;
+    }
+
+    public occupancyOffices(buildingId) {
+        let count = 0;
+        let officeCount = 0;
+        for (let i = 0; i < this.offices.length; i ++) {
+            if (this.offices[i]['buildingId'] == buildingId) {
+                officeCount ++;
+                if (this.offices[i]['is_rented']) count ++;
+            }
+        }
+        return count / officeCount * 100;
+    }
+
     public buildingOffices(buildingId) {
         let offices = [];
         for (let i = 0; i < this.offices.length; i ++) {
@@ -52,6 +87,10 @@ export class HomePage {
         }
 
         return offices;
+    }
+
+    public viewFloorOfffice(buildingId, floorId) {
+        this.navCtrl.push('BuildingProfilePage', {buildingId: buildingId, floorId: floorId});
     }
 
     public viewOffice(office) {

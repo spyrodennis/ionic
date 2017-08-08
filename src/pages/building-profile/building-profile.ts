@@ -21,17 +21,31 @@ export class BuildingProfilePage {
     buildingId: any;
     offices: any;
     loading: Loading;
+    floorId: any;
+    floor: any;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private buildingService: BuildingProvider, private db: AngularFireDatabase, private loadingCtrl: LoadingController) {
         this.buildingId = navParams.get('buildingId');
+        this.floorId = navParams.get('floorId');
         let buildings = this.buildingService.list();
         this.building = {
+            name: ''
+        };
+        this.floor = {
             name: ''
         };
         for (let i = 0; i < buildings.length; i ++) {
             if (buildings[i].id == this.buildingId) {
                 this.building = buildings[i];
                 break;
+            }
+        }
+        if (this.floorId) {
+            for (let i = 0; i < this.building.floors.length; i ++) {
+                if (this.building.floors[i].id == this.floorId) {
+                    this.floor = this.building.floors[i];
+                    break;
+                }
             }
         }
         this.offices = [];
@@ -60,6 +74,11 @@ export class BuildingProfilePage {
 
                 let office = snapshot.val();
                 office['$id'] = snapshot.key;
+                if (this.floorId) {
+                    if (this.floorId != office['floorId']) {
+                        return;
+                    }
+                }
                 this.offices.push(office);
             });
         });
