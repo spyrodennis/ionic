@@ -77,6 +77,23 @@ page-home {
         background-position:  center center;
 	    background-repeat: no-repeat;
     }
+    .light-font-header {
+        font-family: 'Trivial', sans-serif !important;
+        font-weight: 900 !important;
+        font-style: heavy !important;
+    }
+    h1 {
+        .bold {
+        font-family: 'Trivial', sans-serif !important;
+        font-weight: 900 !important;
+        font-style: heavy !important;
+        }
+    }
+    .toolbar-title-md {
+        font-family: 'Trivial', sans-serif !important;
+        font-weight: 900 !important;
+        font-style: heavy !important;
+    }
     .grid {
         padding:0 !important;
     }
@@ -121,24 +138,32 @@ page-home {
         position: absolute;
         bottom: 43px;
         width: 100%;
-        color: black;
+        color: #6a6a6a;
         font-size: 12px;
+        height:12%;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 900;
+        font-style: black;
+        text-transform: uppercase;
 
         p {
-            color: red;
+            color: #59a0e8;
             font-size: 17px;
             margin: 0px;
+            font-family: 'Trivial', sans-serif !important;
+            font-weight: 900 !important;
+            font-style: heavy !important;
         }
     }
     .menu-scroll {
-        background: black;
+        background: #ffffff;
 
         ion-item-sliding {
-            background: black;
+            background: #ffffff;
 
             ion-item {
-                background: black;
-                color: white;
+                background: #ffffff;
+                color: #acacac;
                 padding-left: 0px;
 
                 .item-inner {
