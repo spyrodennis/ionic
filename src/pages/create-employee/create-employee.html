@@ -66,5 +66,5 @@
         </ion-item>
     </ion-list>
 
-    <button ion-button block (click)="createEmployee()">Submit</button>
+    <button ion-button block (click)="createEmployee()" [disabled]="!isConnected">Submit</button>
 </ion-content>

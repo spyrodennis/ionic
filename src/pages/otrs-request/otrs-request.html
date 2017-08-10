@@ -62,5 +62,5 @@
         </ion-item>
     </ion-list>
 
-    <button ion-button block (click)="createNewRequest()">SUBMIT NEW REQUEST</button>
+    <button ion-button block (click)="createNewRequest()" [disabled]="!isConnected">SUBMIT NEW REQUEST</button>
 </ion-content>

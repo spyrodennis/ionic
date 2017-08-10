@@ -4,6 +4,9 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
 import {BuildingProvider} from '../../providers/building/building';
 import {CommonProvider} from '../../providers/common/common';
+import {OfficeProvider} from '../../providers/office/office';
+import {UserProvider} from '../../providers/user/user';
+import {NetworkServiceProvider} from '../../providers/network-service/network-service';
 
 /**
  * Generated class for the EditOfficePage page.
@@ -26,7 +29,7 @@ export class EditOfficePage {
     buildings: any;
     floors: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider, private officeProvider: OfficeProvider, private networkService: NetworkServiceProvider, private userProvider: UserProvider) {
         this.officeId = navParams.get('officeId');
         this.office = {};
         this.owner = {};
@@ -39,23 +42,11 @@ export class EditOfficePage {
         this.buildings = this.buildingService.list();
         this.floors = this.buildings[0].floors;
 
-        let offices = this.db.list('/offices', {
-            preserveSnapshot: true,
-            query: {
-                orderByKey: true,
-                equalTo: this.officeId
-            }
-        });
-
-        offices.subscribe(snapshots => {
-
+        this.officeProvider.getOffice(this.officeId).then(office => {
             this.loading.dismiss();
 
-            snapshots.forEach(snapshot => {
-                console.log(snapshot.key);
-                console.log(snapshot.val());
-
-                this.office = snapshot.val();
+            if (office) {
+                this.office = office;
 
                 let buildings = this.buildingService.list();
                 for (let i = 0; i < buildings.length; i ++) {
@@ -69,7 +60,9 @@ export class EditOfficePage {
                         }
                     }
                 }
-            });
+            }else {
+                this.networkService.showNetworkAlert();
+            }
         });
 
         this.loadOwnerAndRenter();
@@ -80,29 +73,9 @@ export class EditOfficePage {
     }
 
     private loadOwnerAndRenter() {
-        let users = this.db.list('/users',  {
-            preserveSnapshot: true,
-            query: {
-                orderByChild: 'officeKey',
-                equalTo: this.officeId
-            }
-        });
-
-        users.subscribe(snapshots => {
-
-            snapshots.forEach(snapshot => {
-                console.log(snapshot.key);
-                console.log(snapshot.val());
-
-                let user = snapshot.val();
-                user.$id = snapshot.key;
-
-                if (user.level == 3.1) {
-                    this.owner = user;
-                }else if (user.level == 3.2) {
-                    this.renter = user;
-                }
-            });
+        this.userProvider.officeEmployees(this.officeId).then(res => {
+            this.owner = res['owner'];
+            this.renter = res['renter'];
         });
     }
 

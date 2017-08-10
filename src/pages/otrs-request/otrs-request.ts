@@ -8,6 +8,7 @@ import {BuildingProvider} from '../../providers/building/building';
 import {CommonProvider} from '../../providers/common/common';
 import * as moment from 'moment';
 import {PushServiceProvider} from '../../providers/push-service/push-service';
+import {NetworkServiceProvider} from '../../providers/network-service/network-service';
 
 /**
  * Generated class for the OtrsRequestPage page.
@@ -29,8 +30,9 @@ export class OtrsRequestPage {
     userKey: any;
     requests: FirebaseListObservable<any>;
     steps: FirebaseListObservable<any>;
+    isConnected: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider, public actionSheetCtrl: ActionSheetController, public pushService: PushServiceProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider, public actionSheetCtrl: ActionSheetController, public pushService: PushServiceProvider, private networkService: NetworkServiceProvider) {
         this.auth.getUser().then(user => {
             console.log(user);
             this.userKey = user['id'];
@@ -46,6 +48,7 @@ export class OtrsRequestPage {
         this.office = {};
         this.requests = this.db.list('/maintenance_requests', {preserveSnapshot: true});
         this.steps = this.db.list('/maintenance_steps', {preserveSnapshot: true});
+        this.isConnected = true;
     }
 
     ionViewDidLoad() {
@@ -55,6 +58,11 @@ export class OtrsRequestPage {
     ionViewDidEnter() {
         this.loading = this.loadingCtrl.create();
         this.loading.present();
+
+        this.isConnected = !this.networkService.noConnection();
+        if (this.networkService.noConnection()) {
+            this.networkService.showNetworkAlert();
+        }
 
         let offices = this.db.list('/offices', {
             preserveSnapshot: true,

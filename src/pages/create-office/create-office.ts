@@ -4,6 +4,7 @@ import {BuildingProvider} from '../../providers/building/building';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {CommonProvider} from '../../providers/common/common';
 import {LoadingController, Loading} from 'ionic-angular';
+import {NetworkServiceProvider} from '../../providers/network-service/network-service';
 
 /**
  * Generated class for the CreateOfficePage page.
@@ -26,11 +27,20 @@ export class CreateOfficePage {
     owner: any;
     renter: any;
     phoneMask: any;
+    isConnected: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private buildingService: BuildingProvider, private db: AngularFireDatabase, private common: CommonProvider, private loadingCtrl: LoadingController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private buildingService: BuildingProvider, private db: AngularFireDatabase, private common: CommonProvider, private loadingCtrl: LoadingController, private networkService: NetworkServiceProvider) {
         this.offices = this.db.list('/offices', {preserveSnapshot: true});
         this.phoneMask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+        this.isConnected = true;
         this.init();
+    }
+
+    ionViewDidEnter() {
+        this.isConnected = !this.networkService.noConnection();
+        if (this.networkService.noConnection()) {
+            this.networkService.showNetworkAlert();
+        }
     }
 
     ionViewDidLoad() {

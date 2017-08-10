@@ -8,6 +8,8 @@ import {LoginPage} from '../pages/login/login';
 
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
+import {Network} from '@ionic-native/network';
+import {Diagnostic} from '@ionic-native/diagnostic';
 import {AuthProvider} from '../providers/auth/auth';
 import {HttpModule} from '@angular/http';
 import {IonicStorageModule} from '@ionic/storage';
@@ -16,7 +18,10 @@ import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {CommonProvider} from '../providers/common/common';
 import {BuildingProvider} from '../providers/building/building';
 import {CloudSettings, CloudModule} from '@ionic/cloud-angular';
-import { PushServiceProvider } from '../providers/push-service/push-service';
+import {PushServiceProvider} from '../providers/push-service/push-service';
+import {NetworkServiceProvider} from '../providers/network-service/network-service';
+import { OfficeProvider } from '../providers/office/office';
+import { UserProvider } from '../providers/user/user';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBBzf4gxU2tEkE7S7myNCrxXxtOgQX2XWs",
@@ -69,11 +74,16 @@ const cloudSettings: CloudSettings = {
     providers: [
         StatusBar,
         SplashScreen,
+        Network,
+        Diagnostic,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         AuthProvider,
         CommonProvider,
         BuildingProvider,
-    PushServiceProvider
+        PushServiceProvider,
+        NetworkServiceProvider,
+    OfficeProvider,
+    UserProvider
     ]
 })
 export class AppModule {

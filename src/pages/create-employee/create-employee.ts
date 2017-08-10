@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
 import {CommonProvider} from '../../providers/common/common';
+import {NetworkServiceProvider} from '../../providers/network-service/network-service';
 
 /**
  * Generated class for the CreateEmployeePage page.
@@ -19,8 +20,9 @@ export class CreateEmployeePage {
 
     employee: any;
     loading: Loading;
+    isConnected: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private common: CommonProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private common: CommonProvider, private networkSerivce: NetworkServiceProvider) {
         this.employee = {
             first_name: '',
             last_name: '',
@@ -35,6 +37,14 @@ export class CreateEmployeePage {
             can_maintenance: false,
             can_mail_view: false,
         };
+        this.isConnected = true;
+    }
+
+    ionViewDidEnter() {
+        this.isConnected = !this.networkSerivce.noConnection();
+        if (this.networkSerivce.noConnection()) {
+            this.networkSerivce.showNetworkAlert();
+        }
     }
 
     ionViewDidLoad() {

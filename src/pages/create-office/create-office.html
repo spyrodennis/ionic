@@ -105,5 +105,5 @@
         </ion-item>
     </ion-list>
 
-    <button ion-button block (click)="createOffice()">Submit</button>
+    <button ion-button block (click)="createOffice()" [disabled]="!isConnected">Submit</button>
 </ion-content>

@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ItemSliding} from 'ionic-angular';
 import {BuildingProvider} from '../../providers/building/building';
-import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
+import {OfficeProvider} from '../../providers/office/office';
 
 /**
  * Generated class for the BuildingProfilePage page.
@@ -24,7 +24,7 @@ export class BuildingProfilePage {
     floorId: any;
     floor: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private buildingService: BuildingProvider, private db: AngularFireDatabase, private loadingCtrl: LoadingController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private buildingService: BuildingProvider, private loadingCtrl: LoadingController, private officeProvider: OfficeProvider) {
         this.buildingId = navParams.get('buildingId');
         this.floorId = navParams.get('floorId');
         let buildings = this.buildingService.list();
@@ -55,32 +55,9 @@ export class BuildingProfilePage {
         this.loading = this.loadingCtrl.create();
         this.loading.present();
 
-        let offices = this.db.list('/offices', {
-            preserveSnapshot: true,
-            query: {
-                orderByChild: 'buildingId',
-                equalTo: this.buildingId
-            }
-        });
-
-        offices.subscribe(snapshots => {
-
+        this.officeProvider.buildingOffices(this.buildingId, this.floorId).then((res) => {
             this.loading.dismiss();
-            this.offices = [];
-
-            snapshots.forEach(snapshot => {
-                console.log(snapshot.key);
-                console.log(snapshot.val());
-
-                let office = snapshot.val();
-                office['$id'] = snapshot.key;
-                if (this.floorId) {
-                    if (this.floorId != office['floorId']) {
-                        return;
-                    }
-                }
-                this.offices.push(office);
-            });
+            this.offices = res;
         });
     }
 

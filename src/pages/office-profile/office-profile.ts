@@ -4,6 +4,9 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
 import {BuildingProvider} from '../../providers/building/building';
 import {CommonProvider} from '../../providers/common/common';
+import {NetworkServiceProvider} from '../../providers/network-service/network-service';
+import {OfficeProvider} from '../../providers/office/office';
+import {UserProvider} from '../../providers/user/user';
 
 /**
  * Generated class for the OfficeProfilePage page.
@@ -26,7 +29,7 @@ export class OfficeProfilePage {
     owner: any;
     renter: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private buildingService: BuildingProvider, private common: CommonProvider, private networkService: NetworkServiceProvider, private officeProvider: OfficeProvider, private userProvider: UserProvider) {
         this.officeId = navParams.get('officeId');
         this.office = {};
         this.owner = {};
@@ -39,23 +42,10 @@ export class OfficeProfilePage {
         this.loading = this.loadingCtrl.create();
         this.loading.present();
 
-        let offices = this.db.list('/offices', {
-            preserveSnapshot: true,
-            query: {
-                orderByKey: true,
-                equalTo: this.officeId
-            }
-        });
-
-        offices.subscribe(snapshots => {
-
+        this.officeProvider.getOffice(this.officeId).then(office => {
             this.loading.dismiss();
-
-            snapshots.forEach(snapshot => {
-                console.log(snapshot.key);
-                console.log(snapshot.val());
-
-                this.office = snapshot.val();
+            if (office) {
+                this.office = office;
 
                 let buildings = this.buildingService.list();
                 for (let i = 0; i < buildings.length; i ++) {
@@ -69,7 +59,9 @@ export class OfficeProfilePage {
                         }
                     }
                 }
-            });
+            }else {
+                this.networkService.showNetworkAlert();
+            }
         });
 
         this.loadEmployees();
@@ -82,42 +74,25 @@ export class OfficeProfilePage {
     private loadEmployees() {
         this.employees = [];
 
-        let employees = this.db.list('/users',  {
-            preserveSnapshot: true,
-            query: {
-                orderByChild: 'officeKey',
-                equalTo: this.officeId
-            }
-        });
-
-        employees.subscribe(snapshots => {
-
-            snapshots.forEach(snapshot => {
-                console.log(snapshot.key);
-                console.log(snapshot.val());
-
-                let employee = snapshot.val();
-                employee.$id = snapshot.key;
-
-                if (employee.level == 3.1) {
-                    this.owner = employee;
-                }else if (employee.level == 3.2) {
-                    this.renter = employee;
-                }else if (employee.level == 4) {
-                    this.employees.push(employee);
-                }
-            });
+        this.userProvider.officeEmployees(this.officeId).then(res => {
+            this.owner = res['owner'];
+            this.renter = res['renter'];
+            this.employees = res['employees'];
         });
     }
 
     public updateOffice() {
-        let office = this.db.object('/offices/'+this.officeId);
+        if (this.networkService.noConnection()) {
+            this.networkService.showNetworkAlert();
+        }else {
+            let office = this.db.object('/offices/'+this.officeId);
 
-        office.update({
-            is_rented: this.office.is_rented
-        });
+            office.update({
+                is_rented: this.office.is_rented
+            });
 
-        this.common.showAlert('Office updated successfully!');
+            this.common.showAlert('Office updated successfully!');
+        }
     }
 
     public editEmployee(employee, slidingItem: ItemSliding) {

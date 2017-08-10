@@ -3,6 +3,8 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {LoadingController, Loading} from 'ionic-angular';
 import {CommonProvider} from '../../providers/common/common';
+import {NetworkServiceProvider} from '../../providers/network-service/network-service';
+import {UserProvider} from '../../providers/user/user';
 
 /**
  * Generated class for the EmployeeProfilePage page.
@@ -21,7 +23,7 @@ export class EmployeeProfilePage {
     employee: any;
     loading: Loading;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private common: CommonProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private common: CommonProvider, private networkService: NetworkServiceProvider, private userProvider: UserProvider) {
         this.employeeId = navParams.get('employeeId');
         this.employee = {
             first_name: '',
@@ -49,34 +51,26 @@ export class EmployeeProfilePage {
         this.loading = this.loadingCtrl.create();
         this.loading.present();
 
-        let employees = this.db.list('/users',  {
-            preserveSnapshot: true,
-            query: {
-                orderByKey: true,
-                equalTo: this.employeeId
-            }
-        });
-
-        employees.subscribe(snapshots => {
-
+        this.userProvider.getUser(this.employeeId).then(user => {
             this.loading.dismiss();
-
-            snapshots.forEach(snapshot => {
-                console.log(snapshot.key);
-                console.log(snapshot.val());
-
-                let employee = snapshot.val();
-
-                this.employee = employee;
-            });
+            if (user) {
+                this.employee = user;
+            }else {
+                this.networkService.showNetworkAlert();
+            }
         });
     }
 
     public updateEmployee() {
-        let employee = this.db.object('/users/'+this.employeeId);
 
-        employee.update(this.employee);
+        if (this.networkService.noConnection()) {
+            this.networkService.showNetworkAlert();
+        }else {
+            let employee = this.db.object('/users/'+this.employeeId);
 
-        this.common.showAlert('Information updated successfully!');
+            employee.update(this.employee);
+
+            this.common.showAlert('Information updated successfully!');
+        }
     }
 }
